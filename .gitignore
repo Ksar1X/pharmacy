@@ -1,0 +1,20 @@
+# Виртуальное окружение
+.venv/
+venv/
+env/
+
+# Python кэш
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Настройки IDE
+.idea/
+.vscode/
+
+# Данные (индивидуальные логи)
+database/customer_history/*.txt
+
+# Временные файлы Excel (появляются, когда файл открыт)
+~$*.xlsx
