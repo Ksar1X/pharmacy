@@ -1,52 +1,79 @@
+# gui/main_layout.py
 import tkinter as tk
-import ttkbootstrap as tb
-from ttkbootstrap.constants import *
-
 from gui.fonts import *
 from gui.theme import *
+from gui.router import route
+from gui.components import (
+    build_topbar,
+    build_sidebar,
+)
+
 
 def show_dashboard(root, role):
-    card_bg = root.style.colors.dark
-    topbar = tk.Frame(root, bg=COLORS["bg_topbar"], height=60)
-    topbar.pack(fill="x")
 
-    body = tk.Frame(root, bg=COLORS["bg_main"])
-    body.pack(fill="both", expand=True)
+    # ── Основной фрейм ────────────────────────────────
+    frame = tk.Frame(root)
+    frame.pack(fill="both", expand=True)
+    frame.configure(bg=COLORS["bg_main"])
 
-    sidebar = tk.Frame(body, bg=COLORS["bg_dark"], width=220)
-    sidebar.pack(side="left", fill="y")
+    # ── ТОПБАР ────────────────────────────────────────
+    build_topbar(frame, role)
 
-    main = tk.Frame(body, bg=COLORS["bg_main"])
-    main.pack(side="left", fill="both", expand=True)
+    # ── BODY ──────────────────────────────────────────
+    body = tk.Frame(frame)
+    body.pack(side="top", fill="both", expand=True)
+    body.configure(bg=COLORS["bg_main"])
 
-
+    # ── САЙДБАР ───────────────────────────────────────
+    # Пункты меню зависят от роли
     if role == "admin":
-        tb.Label(sidebar, text="SYSTEM", font=FONT_SMALL,
-                 bootstyle=SUCCESS, background=card_bg).pack(pady=30)
-        tb.Button(sidebar, text="⚙️ Настройки", bootstyle=SECONDARY).pack(fill="x", padx=15, pady=5)
+        items = [
+            {"label": "ZASOBY",        "type": "section"},
+            {"label": "Leki",          "type": "btn"},
+            {"label": "Stan Magazynu", "type": "btn"},
+            {"label": "Recepty",       "type": "btn"},
+            {"label": "KLIENCI",       "type": "section"},
+            {"label": "Klienci",       "type": "btn"},
+            {"label": "Statystyki",    "type": "btn"},
+            {"label": "SYSTEM",        "type": "section"},
+            {"label": "Logi",          "type": "btn"},
+            {"label": "Ustawienia",    "type": "btn"},
+        ]
+    elif role == "cashier":
+        items = [
+            {"label": "MENU",          "type": "section"},
+            {"label": "Dashboard",     "type": "btn", "active": True},
+            {"label": "Zakupy",        "type": "btn"},
+            {"label": "Szukaj",        "type": "btn"},
+        ]
+    elif role == "customer":
+        items = [
+            {"label": "MENU",          "type": "section"},
+            {"label": "Dashboard",     "type": "btn", "active": True},
+            {"label": "Katalog",       "type": "btn"},
+            {"label": "Koszyk",        "type": "btn"},
+            {"label": "Historia",      "type": "btn"},
+        ]
+    else:
+        items = []
 
-    tb.Label(main, text="Dzień dobry, Admin 👋", font=FONT_BODY, background=card_bg).pack(pady=(70,0))
+    # ── CONTENT — сюда роутер рисует экраны ───────────
+    content = tk.Frame(body)
+    content.pack(side="right", fill="both", expand=True)
+    content.configure(bg=COLORS["bg_main"])
 
-    # Карточки статистики с константами цветов
-    def draw_card(parent, title, value, text, color_const):
-        card = tb.Frame(parent, bootstyle=DARK, padding=20)
-        card.pack(side="left", fill="both", expand=True, padx=5, pady=(100,0))
+    # ── НАВИГАЦИЯ ─────────────────────────────────────
+    def on_nav(section):
+        route(section, content, role)
 
-        # Полоска сверху
-        tb.Frame(card, bootstyle=color_const, height=3).pack(fill="x", pady=(0, 24))
+    # Сайдбар после content — чтобы on_nav видел content
+    build_sidebar(body, items, on_nav)
 
-        tb.Label(card, text=title, font=FONT_BODY, background=card_bg).pack(anchor="w")
-        tb.Label(card, text=value, font=FONT_HEADING, bootstyle=color_const, background=card_bg).pack(anchor="w")
-        tb.Label(card, text=text, font=FONT_SMALL, bootstyle=color_const, background=card_bg).pack(anchor="w")
-
-    stats_container = tb.Frame(main)
-    stats_container.pack(fill="x", pady=10)
-
-    # Вызываем с константами: SUCCESS, WARNING, DANGER
-    draw_card(stats_container, "Dostępne leki", "148", "12 nowych w tym tygodniu",SUCCESS)
-    draw_card(stats_container, "Klienci", "312", "8 nowych dziś", INFO)
-    draw_card(stats_container, "Zakupy dziś", "47", "śr. wartość: 89 zł", WARNING)
-    draw_card(stats_container, "Niski stan", "12", "leków wymaga uzupełnienia", DANGER)
-
-
-    root.mainloop()
+    # ── СТАРТОВЫЙ ЭКРАН ───────────────────────────────
+    # Показываем dashboard при входе
+    if role == "admin":
+        route("Leki", content, role)
+    elif role == "cashier":
+        route("Dashboard", content, role)
+    elif role == "customer":
+        route("Dashboard", content, role)

@@ -6,12 +6,11 @@
 import ttkbootstrap as tb
 from gui.login_screen import show_login
 from gui.main_layout import show_dashboard
-from gui.fonts import *
+from gui.theme import *
 
 
 def main():
-    load_fonts()
-    root = tb.Window(themename="darkly")
+    root = tb.Window(themename="cyborg")
     root.title("PharmaCare")
     root.geometry("1400x850")
 
