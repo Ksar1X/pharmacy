@@ -16,7 +16,7 @@ FONT_TITLE   = ("DM Serif Display", 28, "normal")
 FONT_HEADING = ("DM Sans", 17, "bold")
 FONT_BODY    = ("DM Sans", 13, "normal")
 FONT_SMALL   = ("DM Sans", 9, "normal")
-FONT_LOGO    = ("DM Serif Display", 22, "normal")
+FONT_LOGO    = ("DM Serif Display", 16, "normal")
 
 def load_fonts():
     if not FONTS_DIR.exists():
