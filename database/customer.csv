@@ -1,7 +1,7 @@
 id;name;surname;login;password_hash;role
 1;Maxim ;Pyshynski;admin;11111111;admin
-2;Ervin;Senkevich;admin;11111111;admin
-3;Arseni;Zuyevich;admin;11111111;admin
+2;Ervin;Senkevich;cashier;11111111;cashier
+3;Arseni;Zuyevich;customer;11111111;customer
 4;;;;;
 5;;;;;
 6;;;;;
