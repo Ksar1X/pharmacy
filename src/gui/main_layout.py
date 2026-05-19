@@ -1,9 +1,9 @@
 # gui/main_layout.py
 import tkinter as tk
-from gui.fonts import *
-from gui.theme import *
-from gui.router import route
-from gui.components import (
+from src.gui.fonts import *
+from src.gui.theme import *
+from src.gui.router import route
+from src.gui.components import (
     build_topbar,
     build_sidebar,
 )
@@ -17,7 +17,9 @@ def show_dashboard(root, role):
     frame.configure(bg=COLORS["bg_main"])
 
     # ── ТОПБАР ────────────────────────────────────────
-    build_topbar(frame, role)
+    def on_nav(section):
+        route(section, content,role)
+    build_topbar(frame, role, on_nav=on_nav)
 
     # ── BODY ──────────────────────────────────────────
     body = tk.Frame(frame)
@@ -28,16 +30,16 @@ def show_dashboard(root, role):
     # Пункты меню зависят от роли
     if role == "admin":
         items = [
-            {"label": "ZASOBY",        "type": "section"},
-            {"label": "Leki",          "type": "btn"},
-            {"label": "Stan Magazynu", "type": "btn"},
-            {"label": "Recepty",       "type": "btn"},
-            {"label": "KLIENCI",       "type": "section"},
-            {"label": "Klienci",       "type": "btn"},
-            {"label": "Statystyki",    "type": "btn"},
-            {"label": "SYSTEM",        "type": "section"},
-            {"label": "Logi",          "type": "btn"},
-            {"label": "Ustawienia",    "type": "btn"},
+            {"label": "ZASOBY", "type": "section"},
+            {"label": "💊 Leki", "type": "btn", "key": "Leki", "active": True},
+            {"label": "📦 Stan Magazynu", "type": "btn", "key": "Stan Magazynu"},
+            {"label": "🧾 Recepty", "type": "btn", "key": "Recepty"},
+            {"label": "KLIENCI", "type": "section"},
+            {"label": "👥 Klienci", "type": "btn", "key": "Klienci"},
+            {"label": "📊 Statystyki", "type": "btn", "key": "Statystyki"},
+            {"label": "SYSTEM", "type": "section"},
+            {"label": "📋 Logi", "type": "btn", "key": "Logi"},
+            {"label": "⚙️ Ustawienia", "type": "btn", "key": "Ustawienia"},
         ]
     elif role == "cashier":
         items = [
@@ -72,7 +74,7 @@ def show_dashboard(root, role):
     # ── СТАРТОВЫЙ ЭКРАН ───────────────────────────────
     # Показываем dashboard при входе
     if role == "admin":
-        route("Leki", content, role)
+        route("Dashboard", content, role)
     elif role == "cashier":
         route("Dashboard", content, role)
     elif role == "customer":

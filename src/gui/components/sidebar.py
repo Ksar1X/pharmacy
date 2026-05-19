@@ -1,6 +1,7 @@
+# gui/components/sidebar.py
 import tkinter as tk
-from gui.fonts import *
-from gui.theme import *
+from src.gui.fonts import *
+from src.gui.theme import *
 
 
 def build_sidebar(parent, items, on_nav):
@@ -18,6 +19,18 @@ def build_sidebar(parent, items, on_nav):
     sep.pack(fill="x", padx=8, pady=(8, 0))
     sep.configure(bg=COLORS["border"])
 
+    # Храним все кнопки чтобы перекрашивать
+    btn_widgets = []  # список (btn_frame, lbl, key)
+
+    def set_active(active_key):
+        for btn_frame, lbl, key in btn_widgets:
+            if key == active_key:
+                btn_frame.configure(bg=COLORS["accent"])
+                lbl.configure(bg=COLORS["accent"], fg="#000000")
+            else:
+                btn_frame.configure(bg=COLORS["bg_sidebar"])
+                lbl.configure(bg=COLORS["bg_sidebar"], fg=COLORS["text"])
+
     for item in items:
         if item["type"] == "section":
             lbl = tk.Label(sidebar, text=item["label"], font=FONT_SMALL)
@@ -25,9 +38,10 @@ def build_sidebar(parent, items, on_nav):
             lbl.configure(bg=COLORS["bg_sidebar"], fg=COLORS["muted"])
 
         elif item["type"] == "btn":
-            active = item.get("active", False)
-            bg_btn = COLORS["accent"] if active else COLORS["bg_sidebar"]
-            fg_btn = "#000000"        if active else COLORS["text"]
+            active  = item.get("active", False)
+            bg_btn  = COLORS["accent"]   if active else COLORS["bg_sidebar"]
+            fg_btn  = "#000000"          if active else COLORS["text"]
+            key     = item.get("key", item["label"])
 
             btn_frame = tk.Frame(sidebar, cursor="hand2")
             btn_frame.pack(fill="x", padx=8, pady=2)
@@ -37,7 +51,14 @@ def build_sidebar(parent, items, on_nav):
             lbl.pack(fill="x", padx=10, pady=6)
             lbl.configure(bg=bg_btn, fg=fg_btn)
 
-            lbl.bind("<Button-1>", lambda e, name=item["label"]: on_nav(name))
-            btn_frame.bind("<Button-1>", lambda e, name=item["label"]: on_nav(name))
+            # Сохраняем виджеты
+            btn_widgets.append((btn_frame, lbl, key))
+
+            def on_click(e, k=key):
+                set_active(k)   # перекрашиваем
+                on_nav(k)       # навигация
+
+            lbl.bind("<Button-1>", on_click)
+            btn_frame.bind("<Button-1>", on_click)
 
     return sidebar

@@ -3,27 +3,23 @@ import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 from ttkbootstrap.tableview import Tableview
 
-from gui.fonts import *
-from gui.theme import *
+from src.gui.fonts import *
+from src.gui.theme import *
 
 
 def build_drug_table(parent, rows):
     table_wrap = tk.Frame(parent)
     table_wrap.pack(fill="both", expand=True)
-    table_wrap.configure(
-        bg=COLORS["bg_card"],
-        highlightbackground=COLORS["border"],
-        highlightthickness=1
-    )
+    table_wrap.configure(bg=COLORS["bg_sidebar"], highlightbackground=COLORS["border"],highlightthickness=1)
 
     # Заголовок
     t_header = tk.Frame(table_wrap)
     t_header.pack(fill="x", padx=16, pady=(14, 8))
-    t_header.configure(bg=COLORS["bg_card"])
+    t_header.configure(bg=COLORS["bg_sidebar"])
 
     t_title = tk.Label(t_header, text=f"Leki ({len(rows)})", font=FONT_HEADING)
     t_title.pack(side="left")
-    t_title.configure(bg=COLORS["bg_card"], fg=COLORS["text"])
+    t_title.configure(bg=COLORS["bg_sidebar"], fg=COLORS["text"])
 
     tb.Entry(t_header, bootstyle=SECONDARY, width=22).pack(side="right")
 

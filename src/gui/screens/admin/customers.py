@@ -1,6 +1,6 @@
 import tkinter as tk
-from gui.fonts import *
-from gui.theme import *
+from src.gui.fonts import *
+from src.gui.theme import *
 
 def build_customers_screen(parent):
     frame = tk.Frame(parent)

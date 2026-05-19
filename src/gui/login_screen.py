@@ -3,8 +3,8 @@ import tkinter as tk
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 
-from gui.fonts import *
-from gui.theme import *
+from src.gui.fonts import *
+from src.gui.theme import *
 
 
 def show_login(root, on_success):

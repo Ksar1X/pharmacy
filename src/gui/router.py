@@ -1,17 +1,17 @@
 # gui/router.py
-from gui.screens.admin.dashboard  import build_admin_dashboard
-from gui.screens.admin.drugs      import build_drugs_screen
-from gui.screens.admin.customers  import build_customers_screen
-from gui.screens.admin.stats      import build_stats_screen
+from src.gui.screens.admin.dashboard  import build_admin_dashboard
+from src.gui.screens.admin.drugs      import build_drugs_screen
+from src.gui.screens.admin.customers  import build_customers_screen
+from src.gui.screens.admin.stats      import build_stats_screen
 
-from gui.screens.cashier.dashboard import build_cashier_dashboard
-from gui.screens.cashier.purchase  import build_purchase_screen
-from gui.screens.cashier.search    import build_search_screen
+from src.gui.screens.cashier.dashboard import build_cashier_dashboard
+from src.gui.screens.cashier.purchase  import build_purchase_screen
+from src.gui.screens.cashier.search    import build_search_screen
 
-from gui.screens.customer.dashboard import build_customer_dashboard
-from gui.screens.customer.catalog   import build_catalog_screen
-from gui.screens.customer.cart      import build_cart_screen
-from gui.screens.customer.history   import build_history_screen
+from src.gui.screens.customer.dashboard import build_customer_dashboard
+from src.gui.screens.customer.catalog   import build_catalog_screen
+from src.gui.screens.customer.cart      import build_cart_screen
+from src.gui.screens.customer.history   import build_history_screen
 
 # Маршруты для каждой роли
 ROUTES = {
@@ -47,16 +47,19 @@ def route(section, content_frame, role):
     for widget in content_frame.winfo_children():
         widget.destroy()
 
+    print(f"route вызван: section='{section}', role='{role}'")
     # Находим нужный builder
     builder = ROUTES.get(role, {}).get(section)
+
+    print(f"builder найден: {builder}")
 
     if builder:
         builder(content_frame)
     else:
         # Если маршрут не найден — показываем заглушку
         import tkinter as tk
-        from gui.theme import COLORS
-        from gui.fonts import FONT_TITLE
+        from src.gui.theme import COLORS
+        from src.gui.fonts import FONT_TITLE
 
         lbl = tk.Label(
             content_frame,

@@ -4,9 +4,8 @@
 Запускать проект нужно именно через этот файл.
 """
 import ttkbootstrap as tb
-from gui.login_screen import show_login
-from gui.main_layout import show_dashboard
-from gui.theme import *
+from src.gui.login_screen import show_login
+from src.gui.main_layout import show_dashboard
 
 
 def main():
