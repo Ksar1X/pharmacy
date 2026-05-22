@@ -1,1 +1,1 @@
-customer_id;city;street;zip_code
+customer_id,city,street,zip_code

@@ -3,6 +3,8 @@ import tkinter as tk
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 
+from customer_manager import *
+
 from gui.fonts import *
 from gui.theme import *
 
@@ -90,7 +92,7 @@ def show_login(root, on_success):
             return
 
         # потом заменишь на: role = login_customer(login, password)
-        role = "admin"  # заглушка
+        role = login_customer(login, password)  # заглушка
 
         if role:
             frame.destroy()
