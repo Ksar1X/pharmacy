@@ -28,6 +28,33 @@ def save_drugs(df):
         print("Błąd: Brak dostępu. Zamknij plik {} przed wykonaniem operacji.".format(DRUGS_FILE))
 
 
+def list_drugs():
+    """Zwraca listę wszystkich leków jako listę słowników (records)."""
+    df = load_drugs()
+    return df.to_dict(orient='records')
+
+
+def find_drug_by_id(drug_id):
+    """Wyszukuje lek po ID. Zwraca słownik z danymi leku lub None."""
+    df = load_drugs()
+    # Konwertujemy ID do jednego typu dla bezpieczeństwa porównania
+    result = df[df['id'].astype(str) == str(drug_id)]
+    if not result.empty:
+        return result.iloc[0].to_dict()
+    print("Błąd: Lek o ID {} nie istnieje.".format(drug_id))
+    return None
+
+
+def find_drug_by_name(name):
+    """Wyszukuje lek po nazwie. Zwraca słownik z danymi leku lub None."""
+    df = load_drugs()
+    result = df[df['name'].astype(str).str.lower() == str(name).lower()]
+    if not result.empty:
+        return result.iloc[0].to_dict()
+    print("Błąd: Lek o nazwie '{}' nie istnieje.".format(name))
+    return None
+
+
 @log_action
 def add_drug(name, category, price, quantity, requires_recipe):
     """Dodaje nowy lek do bazy. Zabezpieczone dekoratorem @log_action."""
@@ -37,7 +64,6 @@ def add_drug(name, category, price, quantity, requires_recipe):
         print("Błąd: Lek '{}' już znajduje się w bazie.".format(name))
         return False
 
-    # Automatyczne generowanie nowego ID leku
     new_id = int(df['id'].max() + 1) if not df.empty else 1
 
     new_row = pd.DataFrame([{
