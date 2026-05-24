@@ -31,8 +31,7 @@ def show_dashboard(root, role):
     if role == "admin":
         items = [
             {"label": "ZASOBY", "type": "section"},
-            {"label": "💊 Leki", "type": "btn", "key": "Leki", "active": True},
-            {"label": "📦 Stan Magazynu", "type": "btn", "key": "Stan Magazynu"},
+            {"label": "💊 Leki", "type": "btn", "key": "Leki"},
             {"label": "🧾 Recepty", "type": "btn", "key": "Recepty"},
             {"label": "KLIENCI", "type": "section"},
             {"label": "👥 Klienci", "type": "btn", "key": "Klienci"},

@@ -68,15 +68,4 @@ def build_admin_dashboard(parent):
 
     stats.winfo_children()[-1].pack_configure(padx=0)
 
-    # ── ТАБЛИЦА ───────────────────────────────────────
-    rows = [
-        ("#0021", "Apap Forte 500mg",  "12,99 zł", "240", "Bez recepty", "Dostępny"),
-        ("#0034", "Amoxicillin 875mg", "34,50 zł", "56",  "Na receptę",  "Dostępny"),
-        ("#0057", "Voltaren Emulgel",  "24,99 zł", "8",   "Bez recepty", "Niski stan"),
-        ("#0062", "Metformin 1000mg",  "18,75 zł", "0",   "Na receptę",  "Brak"),
-        ("#0078", "Rutinoscorbin",      "9,49 zł",  "180", "Bez recepty", "Dostępny"),
-    ]
-
-    build_drug_table(frame, rows)
-
     return frame

@@ -1,38 +1,41 @@
 import tkinter as tk
 import ttkbootstrap as tb
+from ttkbootstrap.constants import *
 
-from src.gui.components import build_drug_table
 from src.gui.fonts import *
 from src.gui.theme import *
+from src.gui.components.drug_table import build_drug_table
 
-def build_drugs_screen(parent):
-    frame = tk.Frame(parent)
-    frame.pack(fill="both", expand=True)
-    frame.configure(bg=COLORS["bg_main"])
+def render_admin_drugs(parent):
+    """
+    Отрисовка экрана управления лекарствами для администратора.
+    """
+    container = tk.Frame(parent)
+    container.pack(fill=BOTH, expand=True, padx=30, pady=30)
+    container.configure(bg=COLORS["bg_main"])
 
-    header = tk.Frame(frame)
-    header.pack(fill="x", pady=(0, 20))
-    header.configure(bg=COLORS["bg_main"])
+    header_frame = tk.Frame(container)
+    header_frame.pack(fill=X, pady=(0, 20))
+    header_frame.configure(bg=COLORS["bg_main"])
 
-    title = tk.Label(header, text="💊 Leki", font=FONT_TITLE)
-    title.pack(side="left", anchor="w")
-    title.configure(bg=COLORS["bg_main"], fg=COLORS["accent"])
+    title_label = tk.Label(
+        header_frame,
+        text="Leki",
+        font=("Arial", 24, "bold"),
+        fg=COLORS["text"]
+    )
+    title_label.config(bg=COLORS["bg_main"])
+    title_label.pack(side=LEFT)
 
-    tb.Button(
-        header,
-        text="+ Dodaj lek",
-        bootstyle="accent",
-        padding=(12, 6)
-    ).pack(side="right")
+    btn_add = tb.Button(
+        header_frame,
+        text="+ Добавить лекарство",
+        bootstyle=SUCCESS,
+        command=lambda: print("Открыть окно добавления")
+    )
+    btn_add.pack(side=RIGHT, padx=5)
 
-    rows = [
-        ("#0021", "Apap Forte 500mg", "12,99 zł", "240", "Bez recepty", "Dostępny"),
-        ("#0034", "Amoxicillin 875mg", "34,50 zł", "56", "Na receptę", "Dostępny"),
-        ("#0057", "Voltaren Emulgel", "24,99 zł", "8", "Bez recepty", "Niski stan"),
-        ("#0062", "Metformin 1000mg", "18,75 zł", "0", "Na receptę", "Brak"),
-        ("#0078", "Rutinoscorbin", "9,49 zł", "180", "Bez recepty", "Dostępny"),
-    ]
+    drug_table_view = build_drug_table(container)
+    drug_table_view.pack(fill=BOTH, expand=True)
 
-    build_drug_table(frame, rows)
-
-    return frame
+    return container
