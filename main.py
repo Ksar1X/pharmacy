@@ -17,7 +17,6 @@ def main():
         # очищаем экран логина
         for widget in root.winfo_children():
             widget.destroy()
-        # рисуем dashboard в том же root
         show_dashboard(root, role)
 
     show_login(root, on_success=on_success)

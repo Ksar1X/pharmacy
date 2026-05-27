@@ -7,6 +7,7 @@ import csv
 import os
 from src.utils import generate_id, hash_password, check_password
 
+
 CUSTOMER_FILE = 'database/customer.csv'
 ADDRESS_FILE = 'database/address.csv'
 HISTORY_DIR = 'database/customer_history/'
@@ -104,8 +105,20 @@ def register_customer(name, surname, login, password, role="customer", *address_
             print("Błąd podczas zapisu adresu: {}".format(e))
 
     try:
+        needs_newline = False
+        if os.path.exists(CUSTOMER_FILE) and os.path.getsize(CUSTOMER_FILE) > 0:
+            with open(CUSTOMER_FILE, 'rb+') as f_check:
+                f_check.seek(-1, os.SEEK_END)
+                last_char = f_check.read(1)
+                if last_char != b'\n':
+                    needs_newline = True
+
         with open(CUSTOMER_FILE, 'a', newline='', encoding='utf-8') as f:
-            csv.writer(f).writerow([customer_id, name, surname, login, hashed_pw, role])
+            if needs_newline:
+                f.write('\n')
+
+            writer = csv.writer(f)
+            writer.writerow([customer_id, name, surname, login, hashed_pw, role])
 
         _save_address(customer_id, address_args)
 

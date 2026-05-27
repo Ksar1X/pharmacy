@@ -1,7 +1,7 @@
 # gui/router.py
 from src.gui.screens.admin.dashboard  import build_admin_dashboard
 from src.gui.screens.admin.drugs      import render_admin_drugs
-from src.gui.screens.admin.customers  import build_customers_screen
+from src.gui.screens.admin.customers  import render_admin_customers
 from src.gui.screens.admin.stats      import build_stats_screen
 
 from src.gui.screens.cashier.dashboard import build_cashier_dashboard
@@ -18,7 +18,7 @@ ROUTES = {
     "admin": {
         "Dashboard":    build_admin_dashboard,
         "Leki":         render_admin_drugs,
-        "Klienci":      build_customers_screen,
+        "Klienci":      render_admin_customers,
         "Statystyki":   build_stats_screen,
     },
     "cashier": {

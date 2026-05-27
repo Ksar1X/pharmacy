@@ -1,4 +1,3 @@
-# gui/screens/admin/dashboard.py
 import tkinter as tk
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
@@ -7,22 +6,19 @@ from datetime import datetime
 from src.gui.fonts import *
 from src.gui.theme import *
 from src.gui.components.stat_card import build_stat_card
-from src.gui.components.drug_table import build_drug_table
+from src.gui.components.add_customer_window import open_add_customer_window
 
 
 def build_admin_dashboard(parent):
 
-    # ── Основной фрейм ────────────────────────────────
     frame = tk.Frame(parent)
     frame.pack(fill="both", expand=True, padx=24, pady=20)
     frame.configure(bg=COLORS["bg_main"])
 
-    # ── ЗАГОЛОВОК ─────────────────────────────────────
     header = tk.Frame(frame)
     header.pack(fill="x", pady=(0, 20))
     header.configure(bg=COLORS["bg_main"])
 
-    # Левая часть — заголовок и дата
     left = tk.Frame(header)
     left.pack(side="left")
     left.configure(bg=COLORS["bg_main"])
@@ -37,26 +33,18 @@ def build_admin_dashboard(parent):
     date_lbl.pack(anchor="w", pady=(2, 0))
     date_lbl.configure(bg=COLORS["bg_main"], fg=COLORS["muted"])
 
-    # Правая часть — кнопки
     right = tk.Frame(header)
     right.pack(side="right", anchor="center")
     right.configure(bg=COLORS["bg_main"])
 
     tb.Button(
         right,
-        text="+ Dodaj lek",
-        bootstyle=(SUCCESS, OUTLINE),
-        padding=(12, 6)
-    ).pack(side="left", padx=(0, 8))
-
-    tb.Button(
-        right,
         text="+ Nowy klient",
         bootstyle=SUCCESS,
-        padding=(12, 6)
+        padding=(12, 6),
+        command= lambda: open_add_customer_window(parent)
     ).pack(side="left")
 
-    # ── КАРТОЧКИ СТАТИСТИКИ ───────────────────────────
     stats = tk.Frame(frame)
     stats.pack(fill="x", pady=(0, 20))
     stats.configure(bg=COLORS["bg_sidebar"])
