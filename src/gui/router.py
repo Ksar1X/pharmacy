@@ -13,6 +13,7 @@ from src.gui.screens.customer.catalog   import build_catalog_screen
 from src.gui.screens.customer.cart      import build_cart_screen
 from src.gui.screens.customer.history   import build_history_screen
 
+
 # Маршруты для каждой роли
 ROUTES = {
     "admin": {
@@ -68,3 +69,4 @@ def route(section, content_frame, role):
         )
         lbl.pack(expand=True)
         lbl.configure(bg=COLORS["bg_main"], fg=COLORS["muted"])
+
