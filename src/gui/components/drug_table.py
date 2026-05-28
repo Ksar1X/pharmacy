@@ -5,7 +5,7 @@ from ttkbootstrap.tableview import Tableview
 
 from src.gui.fonts import *
 from src.gui.theme import *
-from src.drug_manager import load_drugs
+from src.services.backend.drug_manager import load_drugs
 
 
 def get_formatted_rows(df):

@@ -1,7 +1,7 @@
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 from tkinter import messagebox
-from src.customer_manager import register_customer
+from src.services.backend.customer_manager import register_customer
 
 
 def open_add_customer_window(parent, on_refresh_callback):

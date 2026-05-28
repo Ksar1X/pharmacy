@@ -1,6 +1,6 @@
 import ttkbootstrap as tb
-from src.gui.login_screen import show_login
-from src.gui.main_layout import show_dashboard
+from src.gui.screens.login_screen import show_login
+from src.gui.screens.main_layout import show_dashboard
 
 
 def main():

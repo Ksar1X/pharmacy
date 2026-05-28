@@ -5,7 +5,7 @@ from tkinter import messagebox
 import pandas as pd
 import os
 
-from src.customer_manager import remove_customer, ADDRESS_FILE
+from src.services.backend.customer_manager import remove_customer, ADDRESS_FILE
 
 
 def open_customer_profile(parent, c_id, on_delete_callback=None):
