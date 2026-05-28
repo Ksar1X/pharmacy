@@ -21,8 +21,8 @@ def render_admin_customers(parent):
 
     title_label = tk.Label(
         header_frame,
-        text="База клиентов",
-        font=("Arial", 24, "bold"),
+        text="Baza klientów",
+        font=FONT_TITLE,
         bg=COLORS["bg_main"],
         fg=COLORS["text"]
     )

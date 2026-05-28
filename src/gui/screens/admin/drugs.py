@@ -4,7 +4,8 @@ from ttkbootstrap.constants import *
 from ttkbootstrap.tableview import Tableview
 
 from src.gui.theme import COLORS
-from src.drug_manager import load_drugs
+from src.gui.fonts import *
+from src.services.backend.drug_manager import load_drugs
 
 from src.gui.components.add_drug_window import open_add_drug_window
 from src.gui.components.edit_drug_window import open_edit_drug_window
@@ -14,19 +15,16 @@ def render_admin_drugs(parent):
     """
     Ekran do zarządzania magazynem leków.
     """
-    container = tk.Frame(parent, bg=COLORS["bg_main"])
+    container = tk.Frame(parent)
+    container.config(bg=COLORS["bg_main"])
     container.pack(fill=BOTH, expand=True, padx=30, pady=30)
 
     header_frame = tk.Frame(container, bg=COLORS["bg_main"])
+    header_frame.config(bg=COLORS["bg_main"])
     header_frame.pack(fill=X, pady=(0, 20))
 
-    tk.Label(
-        header_frame,
-        text="Magazyn leków",
-        font=("Arial", 24, "bold"),
-        bg=COLORS["bg_main"],
-        fg=COLORS["text"]
-    ).pack(side=LEFT)
+    tk.Label(header_frame,text="Magazyn leków",font=FONT_TITLE,bg=COLORS["bg_main"],fg=COLORS["text"]).pack(side=LEFT)
+
 
     def refresh_table():
         update_table_data()
@@ -38,21 +36,15 @@ def render_admin_drugs(parent):
         command=lambda: open_add_drug_window(parent, refresh_table)
     ).pack(side=RIGHT)
 
-    search_frame = tk.Frame(container, bg=COLORS["bg_main"])
+    search_frame = tk.Frame(container)
     search_frame.pack(fill=X, pady=(0, 10))
 
-    tk.Label(search_frame, text="Wyszukiwanie:", bg=COLORS["bg_main"], fg=COLORS["text"]).pack(side=LEFT, padx=(0, 10))
+    tk.Label(search_frame, text="Wyszukiwanie:", font=FONT_SMALL ,bg=COLORS["bg_main"], fg=COLORS["text"]).pack(side=LEFT, padx=(0, 10))
 
     search_ent = tb.Entry(search_frame, width=40)
     search_ent.pack(side=LEFT)
 
-    tk.Label(
-        search_frame,
-        text=" (kliknij dwukrotnie w wiersz, aby zmienić cenę/ilość)",
-        font=("Arial", 9, "italic"),
-        bg=COLORS["bg_main"],
-        fg="gray"
-    ).pack(side=LEFT, padx=10)
+    tk.Label(search_frame, text=" (kliknij dwukrotnie w wiersz, aby zmienić cenę/ilość)", font=FONT_SMALL, bg=COLORS["bg_main"], fg="gray").pack(side=LEFT, padx=10)
 
     columns = [
         {"text": "ID", "stretch": False, "width": 60},
@@ -63,15 +55,7 @@ def render_admin_drugs(parent):
         {"text": "Przepis", "stretch": False, "width": 100},
     ]
 
-    table = Tableview(
-        master=container,
-        coldata=columns,
-        rowdata=[],
-        bootstyle=PRIMARY,
-        paginated=True,
-        pagesize=15,
-        stripecolor=(COLORS["bg_sidebar"], None),
-    )
+    table = Tableview(master=container,coldata=columns,rowdata=[],bootstyle=PRIMARY,paginated=True,pagesize=15,stripecolor=(COLORS["bg_sidebar"], None),)
     table.pack(fill=BOTH, expand=True)
 
     def update_table_data(event=None):

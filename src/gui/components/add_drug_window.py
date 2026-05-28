@@ -2,7 +2,7 @@ import tkinter as tk
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 from tkinter import messagebox
-from src.drug_manager import add_or_update_drug
+from src.services.backend.drug_manager import add_or_update_drug
 
 
 def open_add_drug_window(parent, on_refresh_callback):

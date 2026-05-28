@@ -3,9 +3,8 @@ import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 from ttkbootstrap.tableview import Tableview
 
-from src.gui.fonts import *
 from src.gui.theme import *
-from src.customer_manager import load_customers
+from src.services.backend.customer_manager import load_customers
 from src.gui.components.customer_profile_window import open_customer_profile
 
 

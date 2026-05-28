@@ -1,11 +1,9 @@
 import tkinter as tk
-import ttkbootstrap as tb
-from ttkbootstrap.constants import *
-
-from src.customer_manager import *
 
 from src.gui.fonts import *
 from src.gui.theme import *
+
+from src.services.backend.customer_manager import login_customer
 
 
 def show_login(root, on_success):
@@ -83,7 +81,7 @@ def show_login(root, on_success):
             error_lbl.configure(text="Введите логин и пароль")
             return
 
-        role = login_customer(login, password)  # заглушка
+        role = login_customer(login, password)
 
         if role:
             frame.destroy()
