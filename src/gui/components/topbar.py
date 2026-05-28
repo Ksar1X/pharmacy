@@ -1,4 +1,3 @@
-# gui/components/topbar.py
 import tkinter as tk
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
@@ -7,7 +6,7 @@ from src.gui.fonts import *
 from src.gui.theme import *
 
 
-def build_topbar(parent, role, on_nav=None):  # ← добавили on_nav
+def build_topbar(parent, role, on_nav=None):
 
     topbar = tk.Frame(parent, height=80)
     topbar.pack(side="top", fill="x")
@@ -27,7 +26,6 @@ def build_topbar(parent, role, on_nav=None):  # ← добавили on_nav
     care.pack(side="left")
     care.configure(fg=COLORS["text"], bg=COLORS["bg_topbar"])
 
-    # Кнопка Dashboard по центру/слева после логотипа
     if on_nav:
         dash_btn = tk.Button(
             topbar,
@@ -41,11 +39,9 @@ def build_topbar(parent, role, on_nav=None):  # ← добавили on_nav
         dash_btn.pack(side="left", padx=(24, 0))
         dash_btn.configure(bg=COLORS["bg_topbar"], fg=COLORS["muted"])
 
-        # Hover эффект
         dash_btn.bind("<Enter>", lambda e: dash_btn.configure(fg=COLORS["text"]))
         dash_btn.bind("<Leave>", lambda e: dash_btn.configure(fg=COLORS["muted"]))
 
-    # Кнопка роли справа
     role_frame = tk.Frame(topbar)
     role_frame.pack(side="right", padx=16)
     role_frame.configure(bg=COLORS["bg_topbar"])

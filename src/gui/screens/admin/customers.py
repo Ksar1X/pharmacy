@@ -9,7 +9,7 @@ from src.gui.components.add_customer_window import open_add_customer_window
 
 def render_admin_customers(parent):
     """
-    Экран управления списком клиентов для администратора.
+    Ekran zarządzania listą klientów dla administratora.
     """
     container = tk.Frame(parent)
     container.pack(fill=BOTH, expand=True, padx=30, pady=30)
@@ -35,7 +35,7 @@ def render_admin_customers(parent):
 
     btn_add = tb.Button(
         header_frame,
-        text="+ Добавить клиента",
+        text="+ Dodaj klienta",
         bootstyle=SUCCESS,
         command=lambda: open_add_customer_window(parent, refresh_customers)
     )

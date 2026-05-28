@@ -5,7 +5,7 @@ from src.customer_manager import register_customer
 
 
 def open_add_customer_window(parent, on_refresh_callback):
-    """Открывает модальное окно для регистрации нового клиента с валидацией."""
+    """Otwiera okno modalne służące do rejestracji nowego klienta z funkcją sprawdzania poprawności danych."""
 
     window = tb.Toplevel(parent)
     window.title("Rejestracja nowego klienta")
@@ -18,7 +18,6 @@ def open_add_customer_window(parent, on_refresh_callback):
 
     tb.Label(form, text="Nowy klient", font=("Arial", 20, "bold")).pack(pady=(0, 20))
 
-    # Вспомогательная функция для создания полей
     def create_field(label_text, is_password=False):
         tb.Label(form, text=label_text, font=("Arial", 10)).pack(anchor=W, pady=(10, 0))
         entry = tb.Entry(form, show="*" if is_password else "")
@@ -46,7 +45,7 @@ def open_add_customer_window(parent, on_refresh_callback):
     ent_zip = create_field("Kod pocztowy:")
 
     def validate_password(pwd):
-        """Проверяет пароль и возвращает список ошибок."""
+        """Sprawdza hasło i zwraca listę błędów."""
         errors = []
         if len(pwd) < 6:
             errors.append("krótki")
@@ -57,7 +56,7 @@ def open_add_customer_window(parent, on_refresh_callback):
         return errors
 
     def check_live(event):
-        """Обновляет подсказку при каждом нажатии клавиши."""
+        """Odświeża podpowiedź przy każdym naciśnięciu klawisza."""
         pwd = ent_password.get()
         if not pwd:
             password_hint.config(text="Co najmniej 6 znaków, 1 wielka litera, 1 cyfra", foreground="gray")
@@ -69,11 +68,9 @@ def open_add_customer_window(parent, on_refresh_callback):
         else:
             password_hint.config(text="Świetne hasło!", foreground="green")
 
-    # Привязываем «живую» проверку к полю пароля
     ent_password.bind("<KeyRelease>", check_live)
 
     def handle_submit():
-        # Сбор данных
         name = ent_name.get().strip()
         surname = ent_surname.get().strip()
         login = ent_login.get().strip()
@@ -82,19 +79,16 @@ def open_add_customer_window(parent, on_refresh_callback):
         street = ent_street.get().strip()
         zip_code = ent_zip.get().strip()
 
-        # 1. Проверка на пустые поля
         if not all([name, surname, login, pwd, city, street, zip_code]):
             messagebox.showwarning("Uwaga", "Wszystkie pola muszą zostać wypełnione!")
             return
 
-        # 2. Валидация пароля перед отправкой
         pwd_errors = validate_password(pwd)
         if pwd_errors:
             messagebox.showerror("Błąd", "Hasło nie spełnia wymagań!")
             password_hint.config(foreground="red")
             return
 
-        # 3. Вызов метода регистрации из customer_manager.py
         try:
             result = register_customer(
                 name, surname, login, pwd, "customer",
@@ -105,7 +99,7 @@ def open_add_customer_window(parent, on_refresh_callback):
                 messagebox.showinfo("Sukces", f"Klient został zarejestrowany!\nID: {result}")
                 window.destroy()
                 if on_refresh_callback:
-                    on_refresh_callback() # Обновляем таблицу в главном окне
+                    on_refresh_callback()
             else:
                 messagebox.showerror("Błąd", "Nazwa użytkownika jest już zajęta lub wystąpił błąd bazy danych.")
         except Exception as e:

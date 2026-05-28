@@ -2,9 +2,7 @@ import pyglet
 import ctypes
 from pathlib import Path
 
-
-
-BASE_DIR = Path(__file__).parent.parent.parent  # доходим до корня PharmaCare/
+BASE_DIR = Path(__file__).parent.parent.parent
 FONTS_DIR = BASE_DIR / "assets" / "fonts"
 
 pyglet.font.add_file(str(FONTS_DIR / "DMSerifDisplay-Regular.ttf"))
@@ -29,4 +27,4 @@ def load_fonts():
     for ttf in FONTS_DIR.glob("*.ttf"):
         result = gdi32.AddFontResourceExW(str(ttf), FR_PRIVATE, 0)
         status = "✅" if result else "❌"
-        print(f"{status} Загружен шрифт: {ttf.name}")
+        print(f"{status} Pobrano czcionkę: {ttf.name}")

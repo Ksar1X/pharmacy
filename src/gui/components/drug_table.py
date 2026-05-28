@@ -9,7 +9,7 @@ from src.drug_manager import load_drugs
 
 
 def get_formatted_rows(df):
-    """Преобразует DataFrame в список кортежей для отображения в таблице."""
+    """Przekształca DataFrame w listę krotek w celu wyświetlenia w tabeli."""
     rows = []
     if df.empty:
         return rows
@@ -22,7 +22,7 @@ def get_formatted_rows(df):
             drug.get('id', ''),
             drug.get('name', ''),
             drug.get('category', ''),
-            f"{float(drug.get('price', 0)):.2f} zł",
+            float(drug.get('price', '')),
             qty,
             drug.get('requires_recipe', ''),
             status
@@ -31,7 +31,7 @@ def get_formatted_rows(df):
 
 
 def build_drug_table(parent):
-    """Создает компонент таблицы с поиском."""
+    """Tworzy komponent tabeli z funkcją wyszukiwania."""
     table_wrap = tk.Frame(parent)
     table_wrap.pack(fill="both", expand=True)
     table_wrap.configure(
@@ -79,7 +79,7 @@ def build_drug_table(parent):
     table.pack(fill="both", expand=True, padx=8, pady=8)
 
     def search_drugs(event=None):
-        """Логика фильтрации данных."""
+        """Logika filtrowania danych."""
         query = search_ent.get().strip().lower()
         df = load_drugs()
 
