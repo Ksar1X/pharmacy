@@ -1,4 +1,3 @@
-# gui/router.py
 from src.gui.screens.admin.dashboard  import build_admin_dashboard
 from src.gui.screens.admin.drugs      import render_admin_drugs
 from src.gui.screens.admin.customers  import render_admin_customers
@@ -14,7 +13,6 @@ from src.gui.screens.customer.cart      import build_cart_screen
 from src.gui.screens.customer.history   import build_history_screen
 
 
-# Маршруты для каждой роли
 ROUTES = {
     "admin": {
         "Dashboard":    build_admin_dashboard,
@@ -38,33 +36,32 @@ ROUTES = {
 
 def route(section, content_frame, role):
     """
-    Очищает content_frame и отрисовывает нужный экран.
+    Czysta ramkę content_frame i rysuje odpowiedni ekran.
 
-    :param section: название раздела (например "Leki")
-    :param content_frame: фрейм в который рисуем экран
-    :param role: роль пользователя (admin / cashier / customer)
+    :param section: nazwa sekcji (np. „Leki”)
+    :param content_frame: ramka, w której rysujemy ekran
+    :param role: rola użytkownika (admin / kasjer / klient)
     """
     # Очищаем текущий контент
     for widget in content_frame.winfo_children():
         widget.destroy()
 
-    print(f"route вызван: section='{section}', role='{role}'")
+    print(f"wywołano funkcję route: section='{section}', role='{role}'")
     # Находим нужный builder
     builder = ROUTES.get(role, {}).get(section)
 
-    print(f"builder найден: {builder}")
+    print(f"znaleziono builder: {builder}")
 
     if builder:
         builder(content_frame)
     else:
-        # Если маршрут не найден — показываем заглушку
         import tkinter as tk
         from src.gui.theme import COLORS
         from src.gui.fonts import FONT_TITLE
 
         lbl = tk.Label(
             content_frame,
-            text=f"Раздел '{section}' в разработке...",
+            text=f"Sekcja '{section}' w trakcie opracowywania...",
             font=FONT_TITLE
         )
         lbl.pack(expand=True)

@@ -14,13 +14,11 @@ def build_sidebar(parent, items, on_nav):
         highlightthickness=1
     )
 
-    # Разделитель
     sep = tk.Frame(sidebar, height=1)
     sep.pack(fill="x", padx=8, pady=(8, 0))
     sep.configure(bg=COLORS["border"])
 
-    # Храним все кнопки чтобы перекрашивать
-    btn_widgets = []  # список (btn_frame, lbl, key)
+    btn_widgets = []
 
     def set_active(active_key):
         for btn_frame, lbl, key in btn_widgets:
@@ -51,12 +49,11 @@ def build_sidebar(parent, items, on_nav):
             lbl.pack(fill="x", padx=10, pady=6)
             lbl.configure(bg=bg_btn, fg=fg_btn)
 
-            # Сохраняем виджеты
             btn_widgets.append((btn_frame, lbl, key))
 
             def on_click(e, k=key):
-                set_active(k)   # перекрашиваем
-                on_nav(k)       # навигация
+                set_active(k)
+                on_nav(k)
 
             lbl.bind("<Button-1>", on_click)
             btn_frame.bind("<Button-1>", on_click)

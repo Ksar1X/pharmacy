@@ -5,69 +5,62 @@ from ttkbootstrap.tableview import Tableview
 
 from src.gui.theme import COLORS
 from src.drug_manager import load_drugs
-# Импортируем окна для добавления и редактирования
+
 from src.gui.components.add_drug_window import open_add_drug_window
 from src.gui.components.edit_drug_window import open_edit_drug_window
 
 
 def render_admin_drugs(parent):
     """
-    Экран управления складом медикаментов.
+    Ekran do zarządzania magazynem leków.
     """
-    # Основной контейнер
     container = tk.Frame(parent, bg=COLORS["bg_main"])
     container.pack(fill=BOTH, expand=True, padx=30, pady=30)
 
-    # --- 1. ВЕРХНЯЯ ПАНЕЛЬ ---
     header_frame = tk.Frame(container, bg=COLORS["bg_main"])
     header_frame.pack(fill=X, pady=(0, 20))
 
-    # Используем tk.Label, так как нам нужен кастомный фон из COLORS
     tk.Label(
         header_frame,
-        text="Склад медикаментов",
+        text="Magazyn leków",
         font=("Arial", 24, "bold"),
         bg=COLORS["bg_main"],
         fg=COLORS["text"]
     ).pack(side=LEFT)
 
-    # Функция обновления данных
     def refresh_table():
         update_table_data()
 
-    # Кнопка добавления НОВОГО лекарства
     tb.Button(
         header_frame,
-        text="+ Новый товар",
+        text="+ Nowy produkt",
         bootstyle=SUCCESS,
         command=lambda: open_add_drug_window(parent, refresh_table)
     ).pack(side=RIGHT)
 
-    # --- 2. ПОИСК ---
     search_frame = tk.Frame(container, bg=COLORS["bg_main"])
     search_frame.pack(fill=X, pady=(0, 10))
 
-    tk.Label(search_frame, text="Поиск:", bg=COLORS["bg_main"], fg=COLORS["text"]).pack(side=LEFT, padx=(0, 10))
+    tk.Label(search_frame, text="Wyszukiwanie:", bg=COLORS["bg_main"], fg=COLORS["text"]).pack(side=LEFT, padx=(0, 10))
 
     search_ent = tb.Entry(search_frame, width=40)
     search_ent.pack(side=LEFT)
 
     tk.Label(
         search_frame,
-        text=" (двойной клик по строке для изменения цены/кол-ва)",
+        text=" (kliknij dwukrotnie w wiersz, aby zmienić cenę/ilość)",
         font=("Arial", 9, "italic"),
         bg=COLORS["bg_main"],
         fg="gray"
     ).pack(side=LEFT, padx=10)
 
-    # --- 3. ТАБЛИЦА ---
     columns = [
         {"text": "ID", "stretch": False, "width": 60},
-        {"text": "Название", "stretch": True},
-        {"text": "Категория", "stretch": True},
-        {"text": "Цена", "stretch": False, "width": 100},
-        {"text": "Кол-во", "stretch": False, "width": 80},
-        {"text": "Рецепт", "stretch": False, "width": 100},
+        {"text": "Tytuł", "stretch": True},
+        {"text": "Kategoria", "stretch": True},
+        {"text": "Cena", "stretch": False, "width": 100},
+        {"text": "Ilość", "stretch": False, "width": 80},
+        {"text": "Przepis", "stretch": False, "width": 100},
     ]
 
     table = Tableview(
@@ -82,7 +75,7 @@ def render_admin_drugs(parent):
     table.pack(fill=BOTH, expand=True)
 
     def update_table_data(event=None):
-        """Загрузка данных из CSV и фильтрация по поиску."""
+        """Wczytywanie danych z pliku CSV i filtrowanie wyników wyszukiwania."""
         query = search_ent.get().strip().lower()
         df = load_drugs()
 
@@ -107,12 +100,8 @@ def render_admin_drugs(parent):
         table.build_table_data(columns, rows)
         return "break"
 
-    # --- 4. СОБЫТИЯ ---
-
-    # Поиск при нажатии Enter
     search_ent.bind("<Return>", update_table_data)
 
-    # Двойной клик для редактирования
     def on_row_double_click(event):
         selected_item = table.view.focus()
         if not selected_item:
@@ -120,12 +109,10 @@ def render_admin_drugs(parent):
 
         row_values = table.view.item(selected_item)['values']
         if row_values:
-            # Открываем окно редактирования (передаем данные строки и функцию обновления)
             open_edit_drug_window(parent, row_values, refresh_table)
 
     table.view.bind("<Double-1>", on_row_double_click)
 
-    # Начальная загрузка
     update_table_data()
 
     return container

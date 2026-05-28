@@ -11,7 +11,7 @@ from src.gui.components.customer_profile_window import open_customer_profile
 
 def build_customer_table(parent):
     """
-    Создает компонент таблицы клиентов с полем поиска.
+    Tworzy komponent tabeli klientów z polem wyszukiwania.
     """
     table_wrap = tk.Frame(parent)
     table_wrap.pack(fill=BOTH, expand=True)
@@ -22,7 +22,7 @@ def build_customer_table(parent):
 
     tb.Label(
         search_frame,
-        text="Поиск клиента:",
+        text="Wyszukiwanie klienta:",
         font=("Arial", 10),
     ).pack(side=LEFT, padx=(0, 10))
 
@@ -33,16 +33,16 @@ def build_customer_table(parent):
     # Подсказка
     tb.Label(
         search_frame,
-        text="(Введите ID, Имя или Логин и нажмите Enter)",
+        text="(Wpisz ID, imię lub nazwę użytkownika i naciśnij klawisz Enter)",
         font=("Arial", 8, "italic"),
     ).pack(side=LEFT, padx=10)
 
     columns = [
         {"text": "ID", "stretch": False, "width": 70},
-        {"text": "Имя", "stretch": True},
-        {"text": "Фамилия", "stretch": True},
-        {"text": "Логин", "stretch": True},
-        {"text": "Роль", "stretch": False, "width": 100},
+        {"text": "Imię", "stretch": True},
+        {"text": "Nazwisko", "stretch": True},
+        {"text": "Login", "stretch": True},
+        {"text": "Rola", "stretch": False, "width": 100},
     ]
 
     table = Tableview(
@@ -58,7 +58,7 @@ def build_customer_table(parent):
     table.pack(fill=BOTH, expand=True, padx=10, pady=10)
 
     def update_table(event=None):
-        """Логика фильтрации и обновления данных в таблице."""
+        """Logika filtrowania i aktualizacji danych w tabeli."""
         query = search_ent.get().strip().lower()
         df = load_customers()
 

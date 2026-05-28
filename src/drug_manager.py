@@ -58,7 +58,7 @@ def find_drug_by_name(name):
 @log_action
 def add_or_update_drug(name, category, price, quantity, requires_recipe):
     """
-    Добавляет новое лекарство или обновляет количество существующего.
+    Dodaje nowy lek lub aktualizuje ilość istniejącego.
     """
     df = pd.read_csv(DRUGS_FILE)
 
