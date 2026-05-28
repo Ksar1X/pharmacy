@@ -2,4 +2,3 @@ id,name,surname,login,password_hash,role
 1,Maxim,Pyshynski,admin,0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e,admin
 2,Ervin,Senkevich,cashier,0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e,cashier
 3,Arseni,Zuyevich,customer,0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e,customer
-9606,Maksim,Asd,SOSISKA,9b1c1b7b19b72f0877ad7a757748bf0af534a0c38e04e741afbaf840edc58a01,customer

@@ -56,29 +56,37 @@ def find_drug_by_name(name):
 
 
 @log_action
-def add_drug(name, category, price, quantity, requires_recipe):
-    """Dodaje nowy lek do bazy. Zabezpieczone dekoratorem @log_action."""
-    df = load_drugs()
+def add_or_update_drug(name, category, price, quantity, requires_recipe):
+    """
+    Добавляет новое лекарство или обновляет количество существующего.
+    """
+    df = pd.read_csv(DRUGS_FILE)
 
-    if not df.empty and name in df['name'].values:
-        print("Błąd: Lek '{}' już znajduje się w bazie.".format(name))
-        return False
+    name_lower = name.strip().lower()
+    existing_index = df[df['name'].str.lower() == name_lower].index
 
-    new_id = int(df['id'].max() + 1) if not df.empty else 1
+    if not existing_index.empty:
+        idx = existing_index[0]
+        df.at[idx, 'quantity'] = int(df.at[idx, 'quantity']) + int(quantity)
+        df.at[idx, 'price'] = float(price)
+        df.at[idx, 'category'] = category
+        df.at[idx, 'requires_recipe'] = requires_recipe
+        message = "Liczba zaktualizowana"
+    else:
+        new_id = int(df['id'].max() + 1) if not df.empty else 1
+        new_row = {
+            'id': new_id,
+            'name': name.strip(),
+            'category': category.strip(),
+            'price': float(price),
+            'quantity': int(quantity),
+            'requires_recipe': requires_recipe
+        }
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        message = "Dodano nowy lek"
 
-    new_row = pd.DataFrame([{
-        'id': new_id,
-        'name': name,
-        'category': category,
-        'price': float(price),
-        'quantity': int(quantity),
-        'requires_recipe': bool(requires_recipe)
-    }])
-
-    df = pd.concat([df, new_row], ignore_index=True)
-    save_drugs(df)
-    print("Dodano nowy lek: {} (ID: {})".format(name, new_id))
-    return True
+    df.to_csv(DRUGS_FILE, index=False)
+    return True, message
 
 
 @log_action
