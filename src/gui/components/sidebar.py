@@ -1,6 +1,4 @@
-# gui/components/sidebar.py
 import tkinter as tk
-from src.gui.fonts import *
 from src.gui.theme import *
 
 

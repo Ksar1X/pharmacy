@@ -1,6 +1,4 @@
 import tkinter as tk
-
-from src.gui.fonts import *
 from src.gui.theme import *
 
 from src.services.backend.customer_manager import login_customer

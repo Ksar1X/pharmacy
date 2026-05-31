@@ -1,16 +1,9 @@
 import tkinter as tk
-import ttkbootstrap as tb
-from ttkbootstrap.constants import *
-from datetime import datetime
-
-from src.gui.fonts import *
 from src.gui.theme import *
 from src.gui.components.stat_card import build_stat_card
-from src.gui.components.add_customer_window import open_add_customer_window
-
+from src.services.logic.stats import *
 
 def build_admin_dashboard(parent):
-
     frame = tk.Frame(parent)
     frame.pack(fill="both", expand=True, padx=24, pady=20)
     frame.configure(bg=COLORS["bg_main"])
@@ -37,23 +30,16 @@ def build_admin_dashboard(parent):
     right.pack(side="right", anchor="center")
     right.configure(bg=COLORS["bg_main"])
 
-    tb.Button(
-        right,
-        text="+ Nowy klient",
-        bootstyle=SUCCESS,
-        padding=(12, 6),
-        command= lambda: open_add_customer_window(parent)
-    ).pack(side="left")
-
     stats = tk.Frame(frame)
     stats.pack(fill="x", pady=(0, 20))
-    stats.configure(bg=COLORS["bg_sidebar"])
+    stats.configure(bg=COLORS["bg_main"])
 
-    build_stat_card(stats, "Dostępne leki", "148", COLORS["accent"])
-    build_stat_card(stats, "Klienci",       "312", COLORS["accent2"])
-    build_stat_card(stats, "Zakupy dziś",   "47",  COLORS["warn"])
-    build_stat_card(stats, "Niski stan",    "12",  COLORS["danger"])
+    build_stat_card(stats, "Dostępne leki", get_count_of_drugs(), COLORS["accent"])
+    build_stat_card(stats, "Klienci",       get_count_of_clients(), COLORS["accent2"])
+    build_stat_card(stats, "Zakupy dziś",   0,  COLORS["warn"])
+    build_stat_card(stats, "Niski stan",    out_of_stock_drugs(),  COLORS["danger"])
 
+    # noinspection PyUnresolvedReferences
     stats.winfo_children()[-1].pack_configure(padx=0)
 
     return frame
