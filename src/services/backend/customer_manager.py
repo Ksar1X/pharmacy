@@ -5,6 +5,8 @@ Odpowiada za rejestrację, wczytywanie, autoryzację i usuwanie danych klientów
 import pandas as pd
 import csv
 import os
+
+from src.services.backend.logger import log_event
 from src.utils import generate_id, hash_password, check_password
 
 
@@ -45,6 +47,8 @@ def save_addresses(df):
 def find_customer_by_id(customer_id):
     """Wyszukuje klienta po ID. Zwraca słownik lub None."""
     df = load_customers()
+    if df.empty:
+        return None
     result = df[df['id'].astype(str) == str(customer_id)]
     if not result.empty:
         return result.iloc[0].to_dict()
@@ -54,6 +58,8 @@ def find_customer_by_id(customer_id):
 def find_customer_by_name(name, surname):
     """Wyszukuje klienta po imieniu i nazwisku. Zwraca słownik lub None."""
     df = load_customers()
+    if df.empty:
+        return None
     result = df[(df['name'].str.lower() == name.lower()) & (df['surname'].str.lower() == surname.lower())]
     if not result.empty:
         return result.iloc[0].to_dict()
@@ -66,6 +72,8 @@ def login_customer(login, password):
     lub None przy błędnych danych logowania.
     """
     df = load_customers()
+    if df.empty:
+        return None
     user_row = df[df['login'] == login]
 
     if user_row.empty:
@@ -76,6 +84,7 @@ def login_customer(login, password):
     user_role = user_row.iloc[0]['role']
 
     if check_password(password, hashed_from_db):
+        log_event(f"Użytkownik {user_role} zalogował się na swoje konto", level="INFO")
         return user_role
     else:
         print("Błąd: Niepoprawne hasło dla użytkownika '{}'.".format(login))
@@ -87,6 +96,8 @@ def register_customer(name, surname, login, password, role="customer", *address_
     Zawiera funkcję wielu zmiennych (*address_args) oraz funkcję zagnieżdżoną.
     """
     df = load_customers()
+    if df.empty:
+        return None
     if login in df['login'].values:
         print("Błąd: Użytkownik o podanym loginie już istnieje.")
         return None
@@ -128,6 +139,7 @@ def register_customer(name, surname, login, password, role="customer", *address_
             hf.write("=" * 50 + "\n")
 
         print("Sukces! Klient {} został zarejestrowany. Przydzielono ID: {}".format(login, customer_id))
+        log_event(f"Dodano nowy klient: {name}", level="INFO")
         return customer_id
     except Exception as e:
         print("Krytyczny błąd podczas rejestracji klienta: {}".format(e))
@@ -163,4 +175,5 @@ def remove_customer(by_id=None, by_name=None):
     save_addresses(df_addr)
 
     print("Dane klienta zostały pomyślnie usunięte z obu baz danych (customer i address).")
+    log_event("Usunięto konto klienta", level="INFO")
     return True

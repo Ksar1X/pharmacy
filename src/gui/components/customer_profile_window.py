@@ -40,16 +40,16 @@ def open_customer_profile(parent, c_id, on_delete_callback=None):
 
     tb.Label(container, text=f"Karta klienta #{c_id}", font=("Arial", 18, "bold")).pack(pady=(0, 20))
 
-    addr_group = tb.LabelFrame(container, text=" Dane adresowe ")
+    addr_group = tb.Labelframe(container, text=" Dane adresowe ")
     addr_group.pack(fill=X, pady=10)
     tb.Label(addr_group, text=address_info, font=("Arial", 11), justify=LEFT).pack(padx=15, pady=15, anchor=W)
 
-    hist_group = tb.LabelFrame(container, text=" Historia operacji ")
+    hist_group = tb.Labelframe(container, text=" Historia operacji ")
     hist_group.pack(fill=BOTH, expand=True, pady=10)
 
     history_box = tk.Text(hist_group, font=("Consolas", 10), bg="#f8f9fa", padx=10, pady=10)
     history_box.insert("1.0", history_text)
-    history_box.config(state=DISABLED)
+    history_box.config(state="disabled")
     history_box.pack(fill=BOTH, expand=True, padx=5, pady=5)
 
     btn_frame = tb.Frame(container)

@@ -1,5 +1,4 @@
 import tkinter as tk
-from src.gui.fonts import *
 from src.gui.theme import *
 from src.gui.router import route
 from src.gui.components import (
@@ -32,7 +31,6 @@ def show_dashboard(root, role):
             {"label": "📊 Statystyki", "type": "btn", "key": "Statystyki"},
             {"label": "SYSTEM", "type": "section"},
             {"label": "📋 Logi", "type": "btn", "key": "Logi"},
-            {"label": "⚙️ Ustawienia", "type": "btn", "key": "Ustawienia"},
         ]
     elif role == "cashier":
         items = [

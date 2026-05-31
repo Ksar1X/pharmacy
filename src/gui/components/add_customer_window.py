@@ -55,7 +55,7 @@ def open_add_customer_window(parent, on_refresh_callback):
             errors.append("brak wielkiej litery")
         return errors
 
-    def check_live(event):
+    def check_live(_event):
         """Odświeża podpowiedź przy każdym naciśnięciu klawisza."""
         pwd = ent_password.get()
         if not pwd:
@@ -108,7 +108,7 @@ def open_add_customer_window(parent, on_refresh_callback):
     btn_submit = tb.Button(
         form,
         text="Zarejestruj klienta",
-        bootstyle=SUCCESS,
+        style="my.TButton",
         command=handle_submit
     )
     btn_submit.pack(fill=X, pady=25)

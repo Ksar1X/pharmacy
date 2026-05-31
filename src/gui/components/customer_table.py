@@ -1,7 +1,7 @@
 import tkinter as tk
-import ttkbootstrap as tb
+
 from ttkbootstrap.constants import *
-from ttkbootstrap.tableview import Tableview
+from ttkbootstrap.widgets.tableview import Tableview
 
 from src.gui.theme import *
 from src.services.backend.customer_manager import load_customers
@@ -17,26 +17,17 @@ def build_customer_table(parent):
     table_wrap.configure(bg=COLORS["bg_main"])
 
     search_frame = tk.Frame(table_wrap, bg=COLORS["bg_main"])
-    search_frame.pack(fill=X, padx=10, pady=10)
+    search_frame.pack(fill=X, padx=10, pady=(10,0), expand=False)
 
-    tb.Label(
-        search_frame,
-        text="Wyszukiwanie klienta:",
-        font=("Arial", 10),
-    ).pack(side=LEFT, padx=(0, 10))
+    tb.Label(search_frame, text="Wyszukiwanie klienta:", style="tip.TLable").pack(side=LEFT, padx=(0, 10))
 
-    search_ent = tb.Entry(search_frame, bootstyle=INFO, width=35)
+    search_ent = tb.Entry(search_frame, bootstyle=PRIMARY, width=35)
     search_ent.pack(side=LEFT)
     search_ent.insert(0, "")
 
-    # Подсказка
-    tb.Label(
-        search_frame,
-        text="(Wpisz ID, imię lub nazwę użytkownika i naciśnij klawisz Enter)",
-        font=("Arial", 8, "italic"),
-    ).pack(side=LEFT, padx=10)
+    tb.Label(search_frame, text="(Wpisz ID, imię lub nazwę użytkownika i naciśnij klawisz Enter)", style="tip.TLable").pack(side=LEFT, padx=10)
 
-    columns = [
+    columns: list = [
         {"text": "ID", "stretch": False, "width": 70},
         {"text": "Imię", "stretch": True},
         {"text": "Nazwisko", "stretch": True},
@@ -48,15 +39,15 @@ def build_customer_table(parent):
         master=table_wrap,
         coldata=columns,
         rowdata=[],
-        bootstyle=INFO,
+        bootstyle=PRIMARY,
         stripecolor=(COLORS["bg_sidebar"], None),
         paginated=True,
-        pagesize=15,
+        pagesize=35,
         autofit=True
     )
-    table.pack(fill=BOTH, expand=True, padx=10, pady=10)
+    table.pack(fill=BOTH, expand=True, padx=8, pady=(0,8))
 
-    def update_table(event=None):
+    def update_table(_event=None):
         """Logika filtrowania i aktualizacji danych w tabeli."""
         query = search_ent.get().strip().lower()
         df = load_customers()
@@ -92,7 +83,7 @@ def build_customer_table(parent):
 
     search_ent.bind("<Return>", update_table)
 
-    def on_row_double_click(event):
+    def on_row_double_click(_event):
         selected_item = table.view.focus()
         if not selected_item:
             return

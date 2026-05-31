@@ -2,6 +2,7 @@ from src.gui.screens.admin.dashboard  import build_admin_dashboard
 from src.gui.screens.admin.drugs      import render_admin_drugs
 from src.gui.screens.admin.customers  import render_admin_customers
 from src.gui.screens.admin.stats      import build_stats_screen
+from src.gui.screens.admin.logs       import render_admin_logs
 
 from src.gui.screens.cashier.dashboard import build_cashier_dashboard
 from src.gui.screens.cashier.purchase  import build_purchase_screen
@@ -19,6 +20,7 @@ ROUTES = {
         "Leki":         render_admin_drugs,
         "Klienci":      render_admin_customers,
         "Statystyki":   build_stats_screen,
+        "Logi":         render_admin_logs
     },
     "cashier": {
         "Dashboard":    build_cashier_dashboard,
@@ -47,7 +49,6 @@ def route(section, content_frame, role):
         widget.destroy()
 
     print(f"wywołano funkcję route: section='{section}', role='{role}'")
-    # Находим нужный builder
     builder = ROUTES.get(role, {}).get(section)
 
     print(f"znaleziono builder: {builder}")

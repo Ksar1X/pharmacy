@@ -2,7 +2,7 @@ import tkinter as tk
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 from tkinter import messagebox
-from src.services.backend.drug_manager import add_or_update_drug
+from src.services.backend.drug_manager import add_new_drug
 
 
 def open_add_drug_window(parent, on_refresh_callback):
@@ -43,16 +43,18 @@ def open_add_drug_window(parent, on_refresh_callback):
             return
 
         try:
-            success, msg = add_or_update_drug(name, cat, price, qty, is_recipe)
+            success, msg = add_new_drug(name, cat, price, qty, is_recipe)
             if success:
                 messagebox.showinfo("Sukces", msg)
                 top.destroy()
-                on_refresh_callback()  # Обновляем таблицу лекарств
+                on_refresh_callback()
+            else:
+                messagebox.showerror("Błąd", msg)
         except Exception as e:
             messagebox.showerror("Błąd", f"Nieprawidłowe dane: {e}")
 
     # Кнопки
-    btn_save = tb.Button(container, text="Potwierdź", bootstyle=SUCCESS, command=handle_submit)
+    btn_save = tb.Button(container, text="Potwierdź", style="my.TButton", command=handle_submit)
     btn_save.pack(fill=X, pady=(20, 5))
 
     tb.Button(container, text="Anulowanie", bootstyle=SECONDARY, command=top.destroy).pack(fill=X)

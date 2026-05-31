@@ -1,11 +1,10 @@
 import tkinter as tk
-import ttkbootstrap as tb
 from ttkbootstrap.constants import *
-from ttkbootstrap.tableview import Tableview
+from ttkbootstrap.widgets.tableview import Tableview
 
-from src.gui.fonts import *
 from src.gui.theme import *
 from src.services.backend.drug_manager import load_drugs
+from src.gui.components.edit_drug_window import open_edit_drug_window
 
 
 def get_formatted_rows(df):
@@ -22,7 +21,7 @@ def get_formatted_rows(df):
             drug.get('id', ''),
             drug.get('name', ''),
             drug.get('category', ''),
-            float(drug.get('price', '')),
+            drug.get('price', ''),
             qty,
             drug.get('requires_recipe', ''),
             status
@@ -32,34 +31,26 @@ def get_formatted_rows(df):
 
 def build_drug_table(parent):
     """Tworzy komponent tabeli z funkcją wyszukiwania."""
-    table_wrap = tk.Frame(parent)
-    table_wrap.pack(fill="both", expand=True)
-    table_wrap.configure(
-        bg=COLORS["bg_sidebar"],
-        highlightbackground=COLORS["border"],
-        highlightthickness=1
-    )
 
-    t_header = tk.Frame(table_wrap, bg=COLORS["bg_sidebar"])
-    t_header.pack(fill="x", padx=16, pady=(14, 8))
+    table_wrp = tk.Frame(parent)
+    table_wrp.pack(fill=BOTH, expand=True)
+    table_wrp.configure(bg=COLORS["bg_main"])
 
-    t_title = tk.Label(
-        t_header,
-        text="Lista Leków",
-        font=FONT_HEADING,
-        bg=COLORS["bg_sidebar"],
-        fg=COLORS["text"]
-    )
-    t_title.pack(side="left")
+    search_frame = tk.Frame(table_wrp, bg=COLORS["bg_main"])
+    search_frame.pack(fill=X, padx=10, pady=(10,0), expand=False)
 
-    search_ent = tb.Entry(t_header, bootstyle=SECONDARY, width=25)
-    search_ent.pack(side="right")
+    tb.Label(search_frame, text="Wyszukiwanie:", style="tip.TLable").pack(side=LEFT, padx=(0, 10))
+
+    search_ent = tb.Entry(search_frame, bootstyle=PRIMARY, width=35)
+    search_ent.pack(side=LEFT)
     search_ent.insert(0, "")
 
-    columns = [
+    tb.Label(search_frame, text=" (kliknij dwukrotnie w wiersz, aby zmienić cenę/ilość)", style="tip.TLable").pack(side=LEFT, padx=10)
+
+    columns: list = [
         {"text": "ID", "stretch": False, "width": 70},
         {"text": "Nazwa", "stretch": True},
-        {"text": "Category", "stretch": True},
+        {"text": "Kategoria", "stretch": True},
         {"text": "Cena", "stretch": False, "width": 100},
         {"text": "Ilość", "stretch": False, "width": 80},
         {"text": "Recepta", "stretch": False, "width": 100},
@@ -67,18 +58,46 @@ def build_drug_table(parent):
     ]
 
     table = Tableview(
-        master=table_wrap,
+        master=table_wrp,
         coldata=columns,
         rowdata=[],
-        bootstyle=DARK,
-        stripecolor=(COLORS["bg_main"], None),
+        bootstyle=PRIMARY,
+        stripecolor=(COLORS["bg_sidebar"], None),
         paginated=True,
-        pagesize=45,
-        autofit=True
+        pagesize=35,
+        autofit=True,
     )
-    table.pack(fill="both", expand=True, padx=8, pady=8)
+    table.pack(fill=BOTH, expand=True, padx=8, pady=(0,8))
 
-    def search_drugs(event=None):
+    def update_table_data(_event=None):
+        """Wczytywanie danych z pliku CSV i filtrowanie wyników wyszukiwania."""
+        query = search_ent.get().strip().lower()
+        df = load_drugs()
+
+        if query:
+            mask = (df['name'].str.lower().str.contains(query)) | \
+                   (df['category'].str.lower().str.contains(query))
+            filtered_df = df[mask]
+        else:
+            filtered_df = df
+
+        rows = []
+        for _, r in filtered_df.iterrows():
+            rows.append((
+                r['id'],
+                r['name'],
+                r['category'],
+                r['price'],
+                r['quantity'],
+                r['requires_recipe']
+            ))
+
+        table.build_table_data(columns, rows)
+        return "break"
+
+    search_ent.bind("<Return>", update_table_data)
+
+    def search_drugs(_event=None):
         """Logika filtrowania danych."""
         query = search_ent.get().strip().lower()
         df = load_drugs()
@@ -93,8 +112,6 @@ def build_drug_table(parent):
         new_rows = get_formatted_rows(filtered_df)
         table.build_table_data(coldata=columns, rowdata=new_rows)
 
-        t_title.config(text=f"Leki ({len(new_rows)})")
-
         search_ent.focus_set()
         return "break"
 
@@ -102,4 +119,20 @@ def build_drug_table(parent):
 
     search_drugs()
 
-    return table_wrap
+    def refresh_table():
+        update_table_data()
+
+    def on_row_double_click(_event):
+        selected_item = table.view.focus()
+        if not selected_item:
+            return
+
+        row_values = table.view.item(selected_item)['values']
+        if row_values:
+            open_edit_drug_window(parent, row_values, refresh_table)
+
+    table.view.bind("<Double-1>", on_row_double_click)
+
+    update_table_data()
+
+    return table_wrp

@@ -1,8 +1,4 @@
 import tkinter as tk
-import ttkbootstrap as tb
-from ttkbootstrap.constants import *
-
-from src.gui.fonts import *
 from src.gui.theme import *
 
 
@@ -13,7 +9,6 @@ def build_topbar(parent, role, on_nav=None):
     topbar.pack_propagate(False)
     topbar.configure(bg=COLORS["bg_topbar"])
 
-    # Логотип
     logo_frame = tk.Frame(topbar)
     logo_frame.pack(side="left", padx=16)
     logo_frame.configure(bg=COLORS["bg_topbar"])
@@ -46,11 +41,6 @@ def build_topbar(parent, role, on_nav=None):
     role_frame.pack(side="right", padx=16)
     role_frame.configure(bg=COLORS["bg_topbar"])
 
-    tb.Button(
-        role_frame,
-        text=role.upper(),
-        bootstyle=SUCCESS,
-        padding=(12, 4)
-    ).pack()
+    tb.Button(role_frame, text=role.upper(), style="my.TButton", padding=(12, 4)).pack()
 
     return topbar
