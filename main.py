@@ -18,7 +18,6 @@ def main():
         show_dashboard(root, role, user_id)
 
     def on_closing():
-        # Вызывается при нажатии на крестик окна
         cancel_cart()
         root.destroy()
 
