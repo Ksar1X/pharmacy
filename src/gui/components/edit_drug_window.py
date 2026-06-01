@@ -61,22 +61,22 @@ def open_edit_drug_window(parent, drug_data, on_refresh_callback):
 
                 df.to_excel(DRUGS_FILE, index=False)
 
-                messagebox.showinfo("Sukces", "Dane w pliku XLSX zostały zaktualizowane!")
+                messagebox.showinfo("Успех", "Данные в XLSX обновлены!")
                 top.destroy()
                 if on_refresh_callback:
                     on_refresh_callback()
             else:
-                messagebox.showerror("Błąd", f"ID {target_id} nie znaleziono!")
+                messagebox.showerror("Ошибка", f"ID {target_id} не найден!")
 
         except ValueError as e:
-            messagebox.showerror("Błąd danych", f"Wprowadź liczby!\nSzczegóły: {e}")
+            messagebox.showerror("Ошибка данных", f"Введите числа!\nДетали: {e}")
         except Exception as e:
-            messagebox.showerror("Błąd", f"Problem z plikiem Excel: {e}")
+            messagebox.showerror("Ошибка", f"Проблема с Excel файлом: {e}")
 
     btn_frame = tb.Frame(container)
     btn_frame.pack(fill=X, pady=20)
 
-    tb.Button(btn_frame, text="Zapisz", style='my.TButton', command=save_changes).pack(side=LEFT, fill=X, expand=True, padx=5)
-    tb.Button(btn_frame, text="Anulowanie", style='my.TButton', command=top.destroy).pack(side=LEFT, fill=X, expand=True, padx=5)
+    tb.Button(btn_frame, text="Сохранить", bootstyle=SUCCESS, command=save_changes).pack(side=LEFT, fill=X, expand=True, padx=5)
+    tb.Button(btn_frame, text="Отмена", bootstyle=SECONDARY, command=top.destroy).pack(side=LEFT, fill=X, expand=True, padx=5)
 
     return top

@@ -7,7 +7,7 @@ from src.gui.theme import COLORS
 
 
 def build_history_screen(parent, user_id):
-    """Ekran historii zakupów klienta.."""
+    """Экран истории покупок клиента."""
 
     frame = tk.Frame(parent)
     frame.pack(fill=BOTH, expand=True)

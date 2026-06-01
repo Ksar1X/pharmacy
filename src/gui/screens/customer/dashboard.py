@@ -9,8 +9,8 @@ from ttkbootstrap.dialogs import Querybox, Messagebox
 
 def build_customer_dashboard(parent, user_id):
     """
-    Podzielony ekran: po lewej katalog, po prawej koszyk.
-    current_user: nazwa użytkownika bieżącego użytkownika do historii i logów.
+    Разделенный экран: Слева каталог, Справа корзина.
+    current_user: логин текущего пользователя для истории и логов.
     """
     main_frame = tb.Frame(parent, padding=15)
     main_frame.pack(fill=BOTH, expand=True)
@@ -40,7 +40,7 @@ def build_customer_dashboard(parent, user_id):
                 initialvalue=1,
                 minvalue=1
             )
-            if amount:
+            if amount:  # Если пользователь не нажал "Отмена"
                 if add_to_cart(drug_id, name, price, amount):
                     refresh_cart()
                     refresh_shop()
@@ -50,7 +50,7 @@ def build_customer_dashboard(parent, user_id):
     left_panel = tb.Frame(main_frame)
     left_panel.pack(side=LEFT, fill=BOTH, expand=True)
 
-    shop_table, refresh_shop = render_shop_table(left_panel, handle_add_event, show_all=False)
+    shop_table, refresh_shop = render_shop_table(left_panel, handle_add_event)
     refresh_cart = render_cart_side_panel(right_panel, user_id, refresh_shop)
 
     return main_frame
