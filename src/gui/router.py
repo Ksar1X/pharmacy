@@ -9,8 +9,6 @@ from src.gui.screens.cashier.purchase  import build_purchase_screen
 from src.gui.screens.cashier.search    import build_search_screen
 
 from src.gui.screens.customer.dashboard import build_customer_dashboard
-from src.gui.screens.customer.catalog   import build_catalog_screen
-from src.gui.screens.customer.cart      import build_cart_screen
 from src.gui.screens.customer.history   import build_history_screen
 
 
@@ -29,8 +27,6 @@ ROUTES = {
     },
     "customer": {
         "Dashboard":    build_customer_dashboard,
-        "Katalog":      build_catalog_screen,
-        "Koszyk":       build_cart_screen,
         "Historia":     build_history_screen,
     }
 }
@@ -44,7 +40,6 @@ def route(section, content_frame, role):
     :param content_frame: ramka, w której rysujemy ekran
     :param role: rola użytkownika (admin / kasjer / klient)
     """
-    # Очищаем текущий контент
     for widget in content_frame.winfo_children():
         widget.destroy()
 

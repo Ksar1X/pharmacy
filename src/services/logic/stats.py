@@ -72,3 +72,13 @@ def get_purchases_today_count():
     except Exception as e:
         print(f"Błąd statystyk sprzedaży: {e}")
         return 0
+
+
+def get_available_drugs():
+    df = load_drugs()
+    if df.empty:
+        return []
+
+    filtered = df[(df['requires_recipe'].astype(str).str.lower() == 'nie') & (df['quantity'] > 0)]
+
+    return filtered[['id', 'name', 'category', 'price', 'quantity']].values.tolist()

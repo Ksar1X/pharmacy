@@ -79,11 +79,11 @@ def show_login(root, on_success):
             error_lbl.configure(text="Введите логин и пароль")
             return
 
-        role = login_customer(login, password)
+        role, user_id = login_customer(login, password)
 
         if role:
             frame.destroy()
-            on_success(role)
+            on_success(role, user_id)
         else:
             error_lbl.configure(text="Неверный логин или пароль")
 
