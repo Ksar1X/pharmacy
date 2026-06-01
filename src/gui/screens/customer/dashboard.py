@@ -51,6 +51,6 @@ def build_customer_dashboard(parent, user_id):
     left_panel.pack(side=LEFT, fill=BOTH, expand=True)
 
     shop_table, refresh_shop = render_shop_table(left_panel, handle_add_event)
-    refresh_cart = render_cart_side_panel(right_panel, current_user, refresh_shop)
+    refresh_cart = render_cart_side_panel(right_panel, user_id, refresh_shop)
 
     return main_frame

@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 
 HISTORY_DIR = 'database/customer_history'
+HISTORY_FILE = 'database/history.txt'
 
 
 def save_to_history(user_id, items, total_price):
@@ -13,6 +14,9 @@ def save_to_history(user_id, items, total_price):
     products_list = ", ".join([f"{item['name']} (x{item['qty']})" for item in items])
 
     entry = f"{now} | {products_list} | {total_price:.2f} zł\n"
+
+    with open(HISTORY_FILE, "a", encoding="utf-8") as f:
+        f.write(entry)
 
     with open(file_path, "a", encoding="utf-8") as f:
         f.write(entry)
