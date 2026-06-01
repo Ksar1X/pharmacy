@@ -7,14 +7,14 @@ from src.gui.components import (
 )
 
 
-def show_dashboard(root, role):
+def show_dashboard(root, role, user_id):
 
     frame = tk.Frame(root)
     frame.pack(fill="both", expand=True)
     frame.configure(bg=COLORS["bg_main"])
 
     def on_nav(section):
-        route(section, content,role)
+        route(section, content, role, user_id)
     build_topbar(frame, role, on_nav=on_nav)
 
     body = tk.Frame(frame)
@@ -34,18 +34,16 @@ def show_dashboard(root, role):
         ]
     elif role == "cashier":
         items = [
-            {"label": "MENU",          "type": "section"},
-            {"label": "Dashboard",     "type": "btn", "active": True},
-            {"label": "Zakupy",        "type": "btn"},
-            {"label": "Szukaj",        "type": "btn"},
+            {"label": "MENU", "type": "section"},
+            {"label": "Dashboard", "type": "btn", "active": True},
+            {"label": "Zakupy", "type": "btn"},
+            {"label": "Szukaj", "type": "btn"},
         ]
     elif role == "customer":
         items = [
-            {"label": "MENU",          "type": "section"},
-            {"label": "Dashboard",     "type": "btn", "active": True},
-            {"label": "Katalog",       "type": "btn"},
-            {"label": "Koszyk",        "type": "btn"},
-            {"label": "Historia",      "type": "btn"},
+            {"label": "MENU", "type": "section"},
+            {"label": "📊Dashboard", "type": "btn", "key": "Dashboard", "active": True},
+            {"label": "🧾Historia", "type": "btn", "key": "Historia"},
         ]
     else:
         items = []
@@ -55,13 +53,13 @@ def show_dashboard(root, role):
     content.configure(bg=COLORS["bg_main"])
 
     def on_nav(section):
-        route(section, content, role)
+        route(section, content, role, user_id)
 
     build_sidebar(body, items, on_nav)
 
     if role == "admin":
-        route("Dashboard", content, role)
+        route("Dashboard", content, role, user_id)
     elif role == "cashier":
-        route("Dashboard", content, role)
+        route("Dashboard", content, role, user_id)
     elif role == "customer":
-        route("Dashboard", content, role)
+        route("Dashboard", content, role, user_id)

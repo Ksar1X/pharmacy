@@ -9,8 +9,6 @@ from src.gui.screens.cashier.purchase  import build_purchase_screen
 from src.gui.screens.cashier.search    import build_search_screen
 
 from src.gui.screens.customer.dashboard import build_customer_dashboard
-from src.gui.screens.customer.catalog   import build_catalog_screen
-from src.gui.screens.customer.cart      import build_cart_screen
 from src.gui.screens.customer.history   import build_history_screen
 
 
@@ -29,32 +27,28 @@ ROUTES = {
     },
     "customer": {
         "Dashboard":    build_customer_dashboard,
-        "Katalog":      build_catalog_screen,
-        "Koszyk":       build_cart_screen,
         "Historia":     build_history_screen,
     }
 }
 
 
-def route(section, content_frame, role):
+def route(section, content_frame, role, user_id=None):
     """
-    Czysta ramkę content_frame i rysuje odpowiedni ekran.
-
-    :param section: nazwa sekcji (np. „Leki”)
-    :param content_frame: ramka, w której rysujemy ekran
-    :param role: rola użytkownika (admin / kasjer / klient)
+    Czyści ramkę content_frame i rysuje odpowiedni ekran.
     """
-    # Очищаем текущий контент
     for widget in content_frame.winfo_children():
         widget.destroy()
 
-    print(f"wywołano funkcję route: section='{section}', role='{role}'")
-    builder = ROUTES.get(role, {}).get(section)
+    section_normalized = section.capitalize()
+    print(f"wywołano funkcję route: section='{section}', role='{role}', user_id='{user_id}'")
 
-    print(f"znaleziono builder: {builder}")
+    builder = ROUTES.get(role, {}).get(section_normalized)
 
     if builder:
-        builder(content_frame)
+        if role == "customer" and section in ["Dashboard", "Historia"]:
+            builder(content_frame, user_id=user_id)
+        else:
+            builder(content_frame)
     else:
         import tkinter as tk
         from src.gui.theme import COLORS

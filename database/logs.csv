@@ -21,3 +21,88 @@
 2026-05-31 20:04:43,Admin,INFO,Użytkownik admin zalogował się na swoje konto
 2026-05-31 20:31:53,Admin,INFO,Użytkownik admin zalogował się na swoje konto
 2026-05-31 20:35:49,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-05-31 20:38:40,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-05-31 23:51:20,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-05-31 23:58:44,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:10:11,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:14:18,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:16:01,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:16:42,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:17:37,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:17:51,Klient,INFO,Sprzedaż detaliczna: Olfen Max  x5
+2026-06-01 00:17:58,Klient,INFO,Sprzedaż detaliczna: Olfen Max  x6
+2026-06-01 00:18:19,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:24:32,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:24:40,Klient,INFO,Sprzedaż detaliczna: Olfen Max  x1
+2026-06-01 00:24:49,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:24:55,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:28:20,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:29:04,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:29:51,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:31:51,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:31:56,Klient,INFO,Sprzedaż detaliczna: Olfen Max  x1
+2026-06-01 00:32:00,Klient,INFO,Sprzedaż detaliczna: Olfen Max  x1
+2026-06-01 00:32:03,Klient,INFO,Sprzedaż detaliczna: Olfen Max  x1
+2026-06-01 00:32:40,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:33:27,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:33:39,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:33:49,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:34:08,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:34:13,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:36:12,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:36:19,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:40:39,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:40:54,Klient,INFO,Sprzedaż detaliczna: Olfen Max  x1
+2026-06-01 00:42:46,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:48:06,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:54:09,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:57:12,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 00:59:03,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:01:30,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:03:14,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:03:48,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:04:35,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:06:08,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:07:02,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:08:56,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:09:26,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-01 01:10:06,Admin,INFO,Dodano nowy klient: Test
+2026-06-01 01:10:40,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-01 01:10:45,Admin,INFO,Usunięto konto klienta
+2026-06-01 01:11:18,Admin,INFO,Dodano nowy klient: Test
+2026-06-01 01:11:30,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:11:42,Klient,INFO,Finalizacja zakupu. Suma: 50.21
+2026-06-01 01:17:13,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:17:20,Klient,INFO,Finalizacja zakupu. Suma: 50.21
+2026-06-01 01:18:53,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:19:00,Klient,INFO,Finalizacja zakupu. Suma: 50.21
+2026-06-01 01:29:24,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:30:15,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 01:30:28,Klient,INFO,Finalizacja zakupu. Suma: 50.21
+2026-06-01 19:00:35,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-01 19:03:23,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:14:47,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:15:56,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:16:05,,INFO,Finalizacja zakupu. Suma: 50.21
+2026-06-01 19:20:05,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:20:15,,INFO,Finalizacja zakupu. Suma: 50.21
+2026-06-01 19:21:35,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:21:44,8947,INFO,Finalizacja zakupu. Suma: 50.21
+2026-06-01 19:26:00,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:26:17,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:31:12,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:31:18,8947,INFO,Finalizacja zakupu. Suma: 50.21
+2026-06-01 19:31:36,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:31:44,8947,INFO,Finalizacja zakupu. Suma: 129.29
+2026-06-01 19:33:42,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:35:49,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:37:03,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:38:15,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:41:36,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:45:51,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:46:25,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:48:03,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:48:59,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-01 19:50:23,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-01 19:51:51,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-01 19:52:33,Admin,INFO,Użytkownik customer zalogował się na swoje konto
