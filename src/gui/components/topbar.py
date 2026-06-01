@@ -21,21 +21,22 @@ def build_topbar(parent, role, on_nav=None):
     care.pack(side="left")
     care.configure(fg=COLORS["text"], bg=COLORS["bg_topbar"])
 
-    if on_nav:
-        dash_btn = tk.Button(
-            topbar,
-            text="🏠 Dashboard",
-            font=FONT_SMALL,
-            relief="flat",
-            bd=0,
-            cursor="hand2",
-            command=lambda: on_nav("Dashboard")
-        )
-        dash_btn.pack(side="left", padx=(24, 0))
-        dash_btn.configure(bg=COLORS["bg_topbar"], fg=COLORS["muted"])
+    if role == "admin":
+        if on_nav:
+            dash_btn = tk.Button(
+                topbar,
+                text="🏠 Dashboard",
+                font=FONT_SMALL,
+                relief="flat",
+                bd=0,
+                cursor="hand2",
+                command=lambda: on_nav("Dashboard")
+            )
+            dash_btn.pack(side="left", padx=(24, 0))
+            dash_btn.configure(bg=COLORS["bg_topbar"], fg=COLORS["muted"])
 
-        dash_btn.bind("<Enter>", lambda e: dash_btn.configure(fg=COLORS["text"]))
-        dash_btn.bind("<Leave>", lambda e: dash_btn.configure(fg=COLORS["muted"]))
+            dash_btn.bind("<Enter>", lambda e: dash_btn.configure(fg=COLORS["text"]))
+            dash_btn.bind("<Leave>", lambda e: dash_btn.configure(fg=COLORS["muted"]))
 
     role_frame = tk.Frame(topbar)
     role_frame.pack(side="right", padx=16)

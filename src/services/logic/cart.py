@@ -93,3 +93,24 @@ def checkout(current_user_id):
 
     clear_cart()
     return True, "Zakup zakończony!"
+
+
+def cancel_cart():
+    """Возвращает все зарезервированные товары из корзины обратно в базу данных."""
+    global _cart_items
+    if not _cart_items:
+        return
+
+    try:
+        df = load_drugs()
+        for item in _cart_items:
+            mask = df['id'].astype(str) == str(item['id'])
+            if mask.any():
+                # Возвращаем количество на склад
+                df.loc[mask, 'quantity'] += item['qty']
+
+        save_drugs(df)
+        _cart_items = []  # Очищаем список корзины в памяти
+        print("Корзина аннулирована, товары возвращены на склад.")
+    except Exception as e:
+        print(f"Ошибка при отмене корзины: {e}")
