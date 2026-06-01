@@ -82,10 +82,11 @@ def login_customer(login, password):
 
     hashed_from_db = user_row.iloc[0]['password_hash']
     user_role = user_row.iloc[0]['role']
+    user_id = user_row.iloc[0]['id']
 
     if check_password(password, hashed_from_db):
         log_event(f"Użytkownik {user_role} zalogował się na swoje konto", level="INFO")
-        return user_role
+        return user_role, user_id
     else:
         print("Błąd: Niepoprawne hasło dla użytkownika '{}'.".format(login))
         return None

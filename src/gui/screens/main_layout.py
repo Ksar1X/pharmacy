@@ -7,7 +7,7 @@ from src.gui.components import (
 )
 
 
-def show_dashboard(root, role):
+def show_dashboard(root, role, user_id):
 
     frame = tk.Frame(root)
     frame.pack(fill="both", expand=True)
@@ -42,10 +42,8 @@ def show_dashboard(root, role):
     elif role == "customer":
         items = [
             {"label": "MENU",          "type": "section"},
-            {"label": "Dashboard",     "type": "btn", "active": True},
-            {"label": "Katalog",       "type": "btn"},
-            {"label": "Koszyk",        "type": "btn"},
-            {"label": "Historia",      "type": "btn"},
+            {"label": "📊Dashboard",     "type": "btn", "active": True},
+            {"label": "🧾Historia", "type": "btn", "key": "Recepty"},
         ]
     else:
         items = []

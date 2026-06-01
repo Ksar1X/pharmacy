@@ -10,10 +10,10 @@ def main():
     root.geometry("1400x850")
     setup_custom_style()
 
-    def on_success(role):
+    def on_success(role, user_id):
         for widget in root.winfo_children():
             widget.destroy()
-        show_dashboard(root, role)
+        show_dashboard(root, role, user_id)
 
     show_login(root, on_success=on_success)
     root.mainloop()

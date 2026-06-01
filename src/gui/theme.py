@@ -21,11 +21,13 @@ def setup_custom_style():
     style = tb.Style()
     style.configure('my.TButton', font=FONT_SMALL, background=COLORS["accent"], foreground=COLORS["bg_main"], borderwidth=0, relief="flat", focusthickness=0, focuscolor=style.colors.primary)
     style.map('my.TButton', relief=[('pressed', 'flat'), ('active', 'flat')])
+    style.configure('delete.TButton', font=FONT_SMALL, background=COLORS["danger"], foreground=COLORS["bg_main"], borderwidth=0, relief="flat", focusthickness=0, focuscolor=style.colors.primary)
 
     style.configure("high.TLabel", font=FONT_HEADING, foreground=COLORS["text"], background=COLORS["bg_main"])
     style.configure("low.TLabel", font=FONT_SMALL, foreground=COLORS["text"], background=COLORS["bg_main"])
 
     style.configure("tip.TLable", font=FONT_HEADING, foreground=COLORS["text"])
+
 
 
 
