@@ -1,79 +1,82 @@
+import tkinter as tk
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
-from ttkbootstrap.tableview import Tableview
-from src.services.backend.drug_manager import load_drugs
+from ttkbootstrap.widgets.tableview import Tableview
+
+from src.gui.theme import COLORS
+from src.services.logic.stats import get_available_drugs
 
 
-def render_shop_table(parent, on_add_callback, show_all=True):
+def render_shop_table(parent, on_add_callback):
     """
-    Wyświetla tabelę produktów do zakupu.
-
-    Args:
-        parent: Ramka, w której będzie znajdować się tabela.
-        on_add_callback: Funkcja wywoływana po naciśnięciu przycisku „Dodaj”.
-        show_all: Jeśli True — pokazuje wszystkie produkty (dla kasjera).
-                  Jeśli False — ukrywa produkty z receptury (dla klienta).
+    Компонент магазина с работающим поиском по логике из drug_table.
     """
+    # 1. Основной контейнер (table_wrp)
+    table_wrp = tk.Frame(parent)
+    table_wrp.pack(fill=BOTH, expand=True)
+    table_wrp.configure(bg=COLORS["bg_main"])
 
-    container = tb.Frame(parent)
-    container.pack(fill=BOTH, expand=True)
+    search_frame = tk.Frame(table_wrp, bg=COLORS["bg_main"])
+    search_frame.pack(fill=X, padx=10, pady=(10, 5))
 
-    df = load_drugs()
+    tb.Label(search_frame, text="Wyszukaj lek:", style="tip.TLabel").pack(side=LEFT, padx=(0, 10))
 
-    if not show_all:
-        df = df[df['requires_recipe'].astype(str).str.capitalize() != 'Tak']
+    search_ent = tb.Entry(search_frame, bootstyle=PRIMARY, width=35)
+    search_ent.pack(side=LEFT)
 
+    tb.Label(search_frame, text="(wpisz nazwę и naciśnij Enter ⏎)", font=("Arial", 8), foreground="gray").pack(
+        side=LEFT, padx=10)
 
     columns = [
-        {"text": "ID", "stretch": False, "width": 50},
+        {"text": "ID", "stretch": False, "width": 60},
         {"text": "Nazwa", "stretch": True},
-        {"text": "Dostępność", "stretch": False, "width": 100},
+        {"text": "Kategoria", "stretch": True},
         {"text": "Cena", "stretch": False, "width": 100},
-        {"text": "Recepta", "stretch": False, "width": 80},
+        {"text": "Dostępność", "stretch": False, "width": 100},
     ]
 
-    row_data = []
-    for _, row in df.iterrows():
-        row_data.append([
-            row['id'],
-            row['name'],
-            f"{row['quantity']} szt.",
-            f"{row['price']} zł",
-            row.get('requires_recipe', 'Nie')
-        ])
-
     table = Tableview(
-        master=container,
+        master=table_wrp,
         coldata=columns,
-        rowdata=row_data,
+        rowdata=[],
+        bootstyle=PRIMARY,
         paginated=True,
         pagesize=15,
-        bootstyle=PRIMARY,
+        autofit=True,
     )
-    table.pack(fill=BOTH, expand=True, pady=10)
+    table.pack(fill=BOTH, expand=True, padx=8, pady=5)
 
     btn_add = tb.Button(
-        container,
-        text="➕ Dodaj wybrane do koszyka",
-        bootstyle=SUCCESS,
+        table_wrp,
+        text="➕ Dodaj wybrany lek do koszyka",
+        style='my.TButton',
         command=lambda: on_add_callback(table)
     )
-    btn_add.pack(pady=10)
+    btn_add.pack(pady=10, fill=X, padx=8)
+
+    def search_drugs(_event=None):
+        """Фильтрация данных магазина."""
+        query = search_ent.get().strip().lower()
+        all_available = get_available_drugs()
+
+        if query:
+            filtered_rows = [
+                row for row in all_available
+                if query in str(row[1]).lower() or query in str(row[2]).lower()
+            ]
+        else:
+            filtered_rows = all_available
+
+        table.build_table_data(coldata=columns, rowdata=filtered_rows)
+        search_ent.focus_set()
+        return "break"
+
+    search_ent.bind("<Return>", search_drugs)
 
     def refresh_shop():
-        new_df = load_drugs()
-        if not show_all:
-            new_df = new_df[new_df['requires_recipe'].astype(str).str.capitalize() != 'Tak']
+        search_ent.delete(0, END)
+        search_drugs()
 
-        new_rows = []
-        for _, row in new_df.iterrows():
-            new_rows.append([
-                row['id'],
-                row['name'],
-                f"{row['quantity']} szt.",
-                f"{row['price']} zł",
-                row.get('requires_recipe', 'Nie')
-            ])
-        table.build_table_data(columns, new_rows)
+    search_drugs()
 
     return table, refresh_shop

@@ -1,7 +1,10 @@
 import tkinter as tk
 from src.gui.theme import *
 from src.gui.router import route
-from src.gui.components import (build_topbar, build_sidebar)
+from src.gui.components import (
+    build_topbar,
+    build_sidebar,
+)
 
 
 def show_dashboard(root, role, user_id):
@@ -32,9 +35,9 @@ def show_dashboard(root, role, user_id):
     elif role == "cashier":
         items = [
             {"label": "MENU", "type": "section"},
-            {"label": "📊Dashboard", "type": "btn", "key": "Dashboard", "active": True},
-            {"label": "💊 Leki", "type": "btn", "key": "Leki"},
-            {"label": "🧾 Recepty", "type": "btn", "key": "Recepty"},
+            {"label": "Dashboard", "type": "btn", "active": True},
+            {"label": "Zakupy", "type": "btn"},
+            {"label": "Szukaj", "type": "btn"},
         ]
     elif role == "customer":
         items = [
@@ -50,7 +53,7 @@ def show_dashboard(root, role, user_id):
     content.configure(bg=COLORS["bg_main"])
 
     def on_nav(section):
-        route(section, content, role, user_id, on_nav)
+        route(section, content, role, user_id)
 
     build_sidebar(body, items, on_nav)
 
