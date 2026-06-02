@@ -55,7 +55,7 @@ def render_shop_table(parent, on_add_callback, show_all=True):
     btn_add = tb.Button(
         container,
         text="➕ Dodaj wybrane do koszyka",
-        bootstyle=SUCCESS,
+        style='my.TButton',
         command=lambda: on_add_callback(table)
     )
     btn_add.pack(pady=10)

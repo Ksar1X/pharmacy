@@ -35,6 +35,7 @@ Styling: Custom fonts (DM Sans) and color themes.
 ## 📝 Developers
 - **Maksim Pyshynski (@Ksar1X)** — Lead Developer: GUI Design, Business Logic, Application Architecture and Backend Logic.
 - **Ervin Senkevich (@Ervin581)** — Data Engineer: Database Structure (Excel/CSV), Data Management, and Backend Logic.
+- **Arseni Zuyevich (@seniu213)** - Backend Contributor: Data Logic
 
 ## 🚀 Getting Started
 

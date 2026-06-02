@@ -12,7 +12,7 @@ def build_cashier_dashboard(parent, user_id):
     main_frame = tb.Frame(parent, padding=15)
     main_frame.pack(fill=BOTH, expand=True)
 
-    right_panel = tb.Labelframe(main_frame, text=" 🛒 Koszyk Klienta ", padding=10, bootstyle=SUCCESS, width=350)
+    right_panel = tb.Labelframe(main_frame, text=" 🛒 Koszyk Klienta ", padding=10, style="low.TLabel", width=350)
     right_panel.pack(side=RIGHT, fill=Y, padx=(10, 0))
     right_panel.pack_propagate(False)
 
@@ -65,7 +65,7 @@ def build_cashier_dashboard(parent, user_id):
     shop_table, refresh_shop = render_shop_table(left_panel, handle_add_event, show_all=True)
     refresh_cart = render_cart_side_panel(right_panel, user_id, refresh_shop)
 
-    btn_final = tb.Button(right_panel, text="✅ Finalizuj i Archiwizuj", bootstyle=SUCCESS,
+    btn_final = tb.Button(right_panel, text="✅ Finalizuj i Archiwizuj", style='my.TButton',
                           command=handle_cashier_checkout)
     btn_final.pack(side=BOTTOM, fill=X, pady=10)
 
