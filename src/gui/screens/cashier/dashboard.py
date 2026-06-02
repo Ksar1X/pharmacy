@@ -12,6 +12,7 @@ from src.gui.theme import *
 
 
 def build_cashier_dashboard(parent, user_id, on_nav):
+
     main_frame = tk.Frame(parent)
     main_frame.configure(bg=COLORS["bg_main"])
     main_frame.pack(fill=BOTH, expand=True)

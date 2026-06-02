@@ -1,6 +1,19 @@
-"""
-Moduł obsługi klienta.
-Odpowiada za rejestrację, wczytywanie, autoryzację i usuwanie danych klientów (pliki CSV).
+"""Komponent zarządzania bazą danych klientów i użytkowników.
+
+Moduł ten pełni rolę warstwy dostępu do danych (Data Access Layer) dla informacji
+o pacjentach i użytkownikach systemu. Obsługuje operacje na plikach CSV,
+zapewniając integralność danych osobowych, adresowych oraz mechanizmy
+uwierzytelniania.
+
+Główne odpowiedzialności:
+    - Odczyt i walidacja profili klientów z pliku `customer.csv`.
+    - Zarządzanie powiązaniami adresowymi w pliku `address.csv`.
+    - Weryfikacja poświadczeń podczas procesu logowania.
+    - Rejestracja nowych użytkowników z automatycznym przydzielaniem ID.
+
+Atrybuty:
+    CUSTOMER_FILE (str): Ścieżka do zbioru danych o klientach.
+    ADDRESS_FILE (str): Ścieżka do bazy danych adresowych.
 """
 import pandas as pd
 import csv

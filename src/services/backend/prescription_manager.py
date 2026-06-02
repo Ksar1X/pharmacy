@@ -1,5 +1,5 @@
 """
-Moduł zarządzania receptami (NFZ).
+Moduł zarządzania receptami.
 Odpowiada za zapisywanie i wczytywanie historii zrealizowanych recept.
 Wymagane do celów raportowych i kontroli państwowej.
 """
@@ -18,6 +18,7 @@ def load_prescription_history():
     """
     Wczytuje historię zrealizowanych recept z pliku XLSX.
     Zwraca DataFrame z kolumnami wymaganymi przez NFZ.
+    :return:
     """
     try:
         return pd.read_excel(PRESCRIPTIONS_FILE)

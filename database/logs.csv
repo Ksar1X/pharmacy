@@ -194,3 +194,24 @@
 2026-06-02 02:36:08,Admin,INFO,Użytkownik cashier zalogował się na swoje konto
 2026-06-02 02:36:35,Admin,INFO,Użytkownik cashier zalogował się na swoje konto
 2026-06-02 02:38:34,Admin,INFO,Użytkownik cashier zalogował się na swoje konto
+2026-06-02 11:49:36,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-02 11:50:33,Admin,INFO,Użytkownik cashier zalogował się na swoje konto
+2026-06-02 11:52:44,Admin,INFO,Użytkownik cashier zalogował się na swoje konto
+2026-06-02 11:58:39,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-02 11:58:57,Admin,INFO,Użytkownik cashier zalogował się na swoje konto
+2026-06-02 11:59:53,Admin,INFO,Użytkownik cashier zalogował się na swoje konto
+2026-06-02 12:00:06,Admin,INFO,Użytkownik customer zalogował się na swoje konto
+2026-06-02 12:00:25,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-02 12:03:33,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-02 12:03:53,Admin,INFO,Dodano nowy lek: asdjhausk
+2026-06-02 12:04:00,Admin,WARNING,Usunięto lek: ID 16
+2026-06-02 12:04:32,Admin,INFO,Usunięto konto klienta
+2026-06-02 12:06:20,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-02 12:10:32,Admin,INFO,Użytkownik admin zalogował się na swoje konto
+2026-06-02 12:13:43,Admin,INFO,Dodano nowy lek: KHJDvgkajd
+2026-06-02 12:14:32,Admin,WARNING,Usunięto lek: ID 16
+2026-06-02 12:17:04,Admin,INFO,Dodano nowy klient: Test
+2026-06-02 12:18:15,Admin,INFO,Użytkownik cashier zalogował się na swoje konto
+2026-06-02 12:20:30,2,INFO,Finalizacja zakupu. Suma: 935.31
+2026-06-02 12:20:56,2,INFO,Finalizacja zakupu. Suma: 54.98
+2026-06-02 12:22:02,Admin,INFO,Użytkownik customer zalogował się na swoje konto

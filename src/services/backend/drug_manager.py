@@ -1,6 +1,30 @@
-"""
-Moduł zarządzania zasobami apteki (lekami).
-Odpowiada za operacje CRUD na pliku Excel (drugs.xlsx).
+"""Komponent zarządzania zasobami produktowymi (Drug Inventory Management).
+
+Ten moduł stanowi warstwę dostępu do danych (Data Access Layer), która zarządza
+cyklem życia informacji o produktach farmaceutycznych. Moduł hermetyzuje
+operacje na plikach Excel, zapewniając atomowość i spójność danych pomiędzy
+warstwą wizualną (GUI) a fizycznym składowiskiem danych (XLSX).
+
+Główne odpowiedzialności:
+    - Inicjalizacja i utrzymanie struktury bazy danych produktów.
+    - Synchronizacja stanów magazynowych po operacjach sprzedażowych.
+    - Walidacja typów danych i integralności kluczy głównych (ID).
+
+Struktura bazy danych (drugs.xlsx):
+    System oczekuje następujących kolumn w arkuszu źródłowym:
+    - id (int): Unikalny identyfikator numeryczny.
+    - name (str): Nazwa handlowa preparatu.
+    - category (str): Kategoria medyczna (np. Analgetyki, Antybiotyki).
+    - price (float): Cena jednostkowa brutto w PLN.
+    - quantity (int): Liczba dostępnych jednostek.
+    - requires_recipe (str): Status prawny sprzedaży ('Tak'/'Nie').
+
+Atrybuty:
+    DRUGS_FILE (str): Ścieżka do pliku bazy danych, domyślnie 'database/drugs.xlsx'.
+
+Wymagania:
+    - pandas: Do manipulacji strukturami danych w pamięci.
+    - openpyxl: Jako silnik zapisu/odczytu formatu XLSX.
 """
 import pandas as pd
 from src.utils import log_action
@@ -10,7 +34,49 @@ DRUGS_FILE = 'database/drugs.xlsx'
 
 
 def load_drugs():
-    """Wczytuje bazę leków z pliku Excel. Posiada obsługę wyjątków."""
+    """Wczytuje i inicjalizuje kompletną bazę danych produktów leczniczych.
+
+    Funkcja pełni rolę bramy wejściowej dla danych asortymentowych. Odczytuje zasób
+    z fizycznego pliku Excel i mapuje go na strukturę tabelaryczną (DataFrame).
+    Została zaprojektowana w sposób odporny na błędy (fail-safe) — w przypadku
+    braku pliku źródłowego nie przerywa działania aplikacji, lecz generuje
+    poprawną strukturę tymczasową.
+
+    Logika techniczna:
+        Wykorzystuje silnik `openpyxl` do parsowania formatu XLSX. Implementuje
+        kaskadową obsługę błędów, od specyficznego braku pliku po ogólne błędy
+        systemowe i błędy uprawnień (I/O).
+
+    Zwraca:
+        pd.DataFrame: Obiekt zawierający aktualny stan magazynowy.
+            Główne kolumny wynikowe:
+            - id (int): Klucz główny produktu.
+            - name (str): Pełna nazwa preparatu.
+            - category (str): Grupa terapeutyczna lub kategoria produktu.
+            - price (float): Cena jednostkowa brutto.
+            - quantity (int): Liczba dostępnych jednostek na stanie.
+            - requires_recipe (str): Status prawny sprzedaży ('Tak'/'Nie').
+
+    Zgłasza (Raises):
+        FileNotFoundError: Logowany wewnętrznie; skutkuje utworzeniem pustego
+            obiektu DataFrame z poprawnymi nagłówkami.
+        ImportError: Jeśli w środowisku brakuje biblioteki `openpyxl`
+            wymaganej do obsługi plików XLSX.
+        Exception: Przechwytuje nieprzewidziane błędy dostępu do pliku,
+            zwracając pusty DataFrame w celu uniknięcia krytycznej awarii UI.
+
+    Uwagi (Notes):
+        - Funkcja jest kluczowa dla integralności widoków w modułach
+          `shop_table` i `drug_table`.
+        - Zmiany wprowadzone w zwracanym obiekcie nie są automatycznie zapisywane
+          na dysku (wymagają wywołania funkcji `save_drugs`).
+
+    Przykład:
+        >>> # Standardowe pobranie danych do tabeli
+        >>> inventory_df = load_drugs()
+        >>> if not inventory_df.empty:
+        >>>     print(f"Załadowano {len(inventory_df)} pozycji.")
+    """
     try:
         return pd.read_excel(DRUGS_FILE, engine='openpyxl')
     except FileNotFoundError:
@@ -22,7 +88,9 @@ def load_drugs():
 
 
 def save_drugs(df):
-    """Zapisuje zmodyfikowany DataFrame z powrotem do pliku Excel."""
+    """Zapisuje zmodyfikowany DataFrame z powrotem do pliku Excel.
+    :param df:
+    """
     try:
         df.to_excel(DRUGS_FILE, index=False, engine='openpyxl')
     except PermissionError:
@@ -51,7 +119,12 @@ def find_drug_by_id(drug_id):
 
 
 def find_drug_by_name(name):
-    """Wyszukuje lek po nazwie. Zwraca słownik z danymi leku lub None."""
+    """
+    Wyszukuje lek po nazwie. Zwraca słownik z danymi leku lub None.
+
+    Args:
+        name:
+    """
     df = load_drugs()
     if df.empty:
         return None
@@ -67,7 +140,45 @@ def find_drug_by_name(name):
 @log_action
 def add_new_drug(name, category, price, quantity, requires_recipe):
     """
-    Dodaje nowy lek lub aktualizuje ilość istniejącego.
+    Rejestruje nowy produkt leczniczy w bazie danych lub aktualizuje istniejący.
+
+    Funkcja pełni rolę procesora wejściowego dla asortymentu. Przeprowadza walidację
+    unikalności nazwy, a następnie decyduje o utworzeniu nowej pozycji (z generowaniem
+    unikalnego ID) lub aktualizacji parametrów istniejącego leku (zwiększenie stanu
+    magazynowego, aktualizacja ceny i kategorii).
+
+    Logika procesowa:
+        1. Weryfikacja duplikatów poprzez wyszukiwanie nazwy (ignorując wielkość liter).
+        2. Automatyczne generowanie ID: `max(id) + 1` (wzorzec Auto-Increment).
+        3. Normalizacja danych wejściowych (usuwanie zbędnych spacji, rzutowanie typów).
+        4. Trwały zapis (I/O) do pliku Excel oraz rejestracja zdarzenia w logach systemowych.
+
+    Args:
+        name (str): Pełna nazwa handlowa lub generyczna leku.
+        category (str): Grupa terapeutyczna lub kategoria magazynowa.
+        price (float/str): Cena brutto za jednostkę. Zostanie skonwertowana na float.
+        quantity (int/str): Liczba jednostek do wprowadzenia. Zostanie skonwertowana na int.
+        requires_recipe (str): Status prawny sprzedaży ('Tak'/'Nie').
+
+    Returns:
+        tuple (bool, str): Para wartości zawierająca:
+            - Status operacji (True jeśli dodano/zaktualizowano, False w przypadku błędu).
+            - Komunikat tekstowy dla interfejsu użytkownika (np. "Dodano nowy lek").
+
+    Raises:
+        ValueError: Jeśli `price` lub `quantity` nie mogą zostać rzutowane na typy numeryczne.
+        PermissionError: Jeśli plik bazy danych 'drugs.xlsx' jest zablokowany przez inny proces.
+        AttributeError: W przypadku wystąpienia nieoczekiwanej struktury w obiekcie DataFrame.
+
+    Side Effects:
+        - Dokonuje zapisu fizycznego w pliku `database/drugs.xlsx`.
+        - Rejestruje wpis w centralnym systemie logowania zdarzeń (logs.csv).
+        - Dzięki dekoratorowi `@log_action`, wywołanie funkcji jest monitorowane przez system debugowania.
+
+    Examples:
+        >>> success, msg = add_new_drug("Apap", "Przeciwbólowe", 12.50, 100, "Nie")
+        >>> if success:
+        >>>     print(f"Sukces: {msg}")
     """
 
     existing_drug = find_drug_by_name(name)
@@ -140,7 +251,51 @@ def remove_drug(by_id=None, by_name=None):
 
 
 def update_drug_quantity(drug_id, delta):
-    """Aktualizuje stan magazynowy leku po dokonaniu zakupu."""
+    """Zarządza przepływem towarów (przyjęcie/wydanie) w bazie danych.
+
+    Funkcja stanowi krytyczną warstwę logiki biznesowej odpowiedzialną za
+    aktualizację stanów magazynowych w czasie rzeczywistym. Implementuje
+    ścisłą walidację ilościową, zapobiegając powstawaniu stanów ujemnych
+    (tzw. "sprzedaży pod kreskę").
+
+    Logika działania:
+        1. Wczytuje aktualny stan z pliku Excel.
+        2. Weryfikuje istnienie produktu o podanym identyfikatorze.
+        3. Oblicza nową ilość i sprawdza, czy nie jest ona mniejsza od zera.
+        4. Synchronizuje zmodyfikowane dane z fizycznym nośnikiem (XLSX).
+
+    Args:
+        drug_id (int): Unikalny identyfikator produktu (klucz główny) w bazie.
+        delta (int): Wartość zmiany ilościowej.
+            - Wartość dodatnia (np. 15): Oznacza dostawę/przyjęcie towaru.
+            - Wartość ujemna (np. -3): Oznacza wydanie/sprzedaż towaru.
+
+    Returns:
+        bool: Status operacji. Zwraca True, jeśli walidacja przeszła pomyślnie
+            i dane zostały trwale zapisane. Zwraca None, jeśli baza danych
+            jest pusta.
+
+    Raises:
+        ValueError: W dwóch przypadkach:
+            - Jeśli produkt o podanym `drug_id` nie figuruje w bazie.
+            - Jeśli suma stanu bieżącego i `delta` jest mniejsza od zera.
+        PermissionError: Gdy plik 'drugs.xlsx' jest zablokowany przez inny
+            proces (np. otwarty w programie Microsoft Excel).
+        TypeError: Jeśli parametr `delta` nie jest liczbą całkowitą.
+
+    Skutki uboczne (Side Effects):
+        - Dokonuje zapisu (I/O) na dysku twardym w pliku 'database/drugs.xlsx'.
+        - Zmienia globalny stan dostępności produktów, co wpływa na widoki
+          w modułach `shop_table` oraz `stats_panel`.
+
+    Examples:
+        >>> # Przyjęcie 10 sztuk leku o ID 1
+        >>> update_drug_quantity(1, 10)
+        True
+        >>> # Próba sprzedaży 1000 sztuk (przy stanie np. 50)
+        >>> update_drug_quantity(1, -1000)
+        ValueError: Niewystarczająca ilość leku w magazynie!
+    """
     df = load_drugs()
     if df.empty:
         return None
@@ -156,3 +311,4 @@ def update_drug_quantity(drug_id, delta):
     df.loc[df['id'] == drug_id, 'quantity'] = new_quantity
     save_drugs(df)
     return True
+
