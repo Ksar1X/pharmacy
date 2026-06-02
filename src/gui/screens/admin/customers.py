@@ -4,7 +4,7 @@ from src.gui.theme import *
 from src.gui.components.customer_table import build_customer_table
 from src.gui.components.add_customer_window import open_add_customer_window
 
-def render_admin_customers(parent):
+def render_admin_customers(parent, **kwargs):
     """
     Ekran zarządzania listą klientów dla administratora.
     """

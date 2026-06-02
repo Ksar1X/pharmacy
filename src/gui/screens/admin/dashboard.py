@@ -3,7 +3,7 @@ from src.gui.theme import *
 from src.gui.components.stat_card import build_stat_card
 from src.services.logic.stats import *
 
-def build_admin_dashboard(parent):
+def build_admin_dashboard(parent, **kwargs):
     frame = tk.Frame(parent)
     frame.pack(fill="both", expand=True, padx=24, pady=20)
     frame.configure(bg=COLORS["bg_main"])

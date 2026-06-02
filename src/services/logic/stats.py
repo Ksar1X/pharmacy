@@ -74,7 +74,6 @@ def get_purchases_today_count():
         return 0
 
 
-# === Nowe funkcje statystyczne (dodane bez modyfikacji istniejących) ===
 def _load_logs_for_stats():
     """Wczytuje logi bezpiecznie i normalizuje typy kolumn do analiz."""
     if not os.path.exists(LOG_FILE):

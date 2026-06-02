@@ -7,7 +7,7 @@ from src.gui.theme import *
 from src.gui.components.add_drug_window import open_add_drug_window
 
 
-def render_admin_drugs(parent):
+def render_admin_drugs(parent, **kwargs):
     """
     Ekran do zarządzania magazynem leków.
     """

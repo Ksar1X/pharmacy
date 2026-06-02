@@ -1,4 +1,5 @@
 import ttkbootstrap as tb
+import tkinter as tk
 from ttkbootstrap.constants import *
 from src.gui.components.shop_table import render_shop_table
 from src.gui.components.cart_panel import render_cart_side_panel
@@ -7,9 +8,12 @@ from src.services.backend.prescription_manager import is_drug_prescription_requi
 from src.services.logic.purchase import add_to_recipe_archive
 from ttkbootstrap.dialogs import Querybox, Messagebox
 
+from src.gui.theme import *
 
-def build_cashier_dashboard(parent, user_id):
-    main_frame = tb.Frame(parent, padding=15)
+
+def build_cashier_dashboard(parent, user_id, on_nav):
+    main_frame = tk.Frame(parent)
+    main_frame.configure(bg=COLORS["bg_main"])
     main_frame.pack(fill=BOTH, expand=True)
 
     right_panel = tb.Labelframe(main_frame, text=" 🛒 Koszyk Klienta ", padding=10, style="low.TLabel", width=350)

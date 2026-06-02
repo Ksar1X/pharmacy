@@ -6,7 +6,7 @@ from src.services.backend.logger import load_logs
 
 from src.gui.theme import *
 
-def render_admin_logs(parent):
+def render_admin_logs(parent, **kwargs):
     container = tk.Frame(parent)
     container.pack(fill="both", expand=True, padx=24, pady=20)
     container.configure(bg=COLORS["bg_main"])

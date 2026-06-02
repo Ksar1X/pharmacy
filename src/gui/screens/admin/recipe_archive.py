@@ -6,7 +6,7 @@ import os
 
 from src.gui.theme import *
 
-def build_recipe_archive_screen(parent):
+def build_recipe_archive_screen(parent, **kwargs):
     frame = tk.Frame(parent)
     frame.pack(fill="both", expand=True, padx=24, pady=20)
     frame.configure(bg=COLORS["bg_main"])

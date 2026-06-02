@@ -46,10 +46,10 @@ def route(section, content_frame, role, user_id=None, on_nav=None):
     builder = ROUTES.get(role, {}).get(section_normalized)
 
     if builder:
-        if role == 'customer' and section in ['Dashboard', "Historia"]:
-            builder(content_frame, user_id)
-        if role == "cashier" and section == "Dashboard":
-            builder(content_frame, user_id)
+        if role == "cashier":
+            builder(content_frame, user_id=user_id, on_nav=on_nav)
+        elif role == "customer":
+            builder(content_frame, user_id=user_id)
         else:
             builder(content_frame)
     else:
